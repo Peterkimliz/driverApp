@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "547197712861",
+    "project_id": "safiri-8d13c",
+    "storage_bucket": "safiri-8d13c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547197712861:android:4ee6a9a1180d85253d5e34",
+        "android_client_info": {
+          "package_name": "com.alutastarcabs.user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATcJTLDVW4s3oL1RShXmywx6w6tvlCD_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547197712861:android:f1cde6f9a5ea86c13d5e34",
+        "android_client_info": {
+          "package_name": "com.alutastarcabs.driver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATcJTLDVW4s3oL1RShXmywx6w6tvlCD_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547197712861:android:81df738f15e208743d5e34",
+        "android_client_info": {
+          "package_name": "com.safiri.taxi.rider"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATcJTLDVW4s3oL1RShXmywx6w6tvlCD_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
