@@ -234,8 +234,8 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                   SizedBox.expand(
                                     child: DraggableScrollableSheet(
                                         initialChildSize: 0.3,
-                                        minChildSize: 0.3,
-                                        maxChildSize: 0.6,
+                                        minChildSize: 0.2,
+                                        maxChildSize: 0.4,
                                         expand: false,
                                         snap: false,
                                         builder: (BuildContext context,
@@ -249,12 +249,12 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                 height: MediaQuery.of(context)
                                                         .size
                                                         .height *
-                                                    0.8,
+                                                    0.35,
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
                                                 decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    color: Colors.grey.shade300,
                                                     borderRadius:
                                                         BorderRadius.only(
                                                       topRight: Radius.circular(
@@ -271,12 +271,96 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                               : 30),
                                                     )),
                                                 child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     if (state
                                                             is! StatusInService &&
                                                         state is StatusOffline)
                                                       _getOnlineOfflineButton(
                                                           context, state),
+                                                    if (state
+                                                            is! StatusInService &&
+                                                        state is StatusOnline)
+                                                      Column(
+                                                        children: [
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Center(
+                                                              child: Container(
+                                                            height: 5,
+                                                            width: 80,
+                                                            decoration: BoxDecoration(
+                                                                color:
+                                                                    Colors.grey,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30)),
+                                                          )),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.symmetric(
+                                                              horizontal: 7),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Expanded(
+                                                              child: Container(
+                                                                  height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height*0.25,
+                                                                  child: bottomSheetItems(
+                                                                      title:
+                                                                          "Today's Earnings",
+                                                                      function:
+                                                                          () {},
+                                                                      subtitle:
+                                                                          "Kes.200",
+                                                                      context:
+                                                                          context))),
+                                                          const SizedBox(
+                                                              width: 5),
+                                                          Expanded(
+                                                              child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              bottomSheetItems(
+                                                                  title:
+                                                                      "Driver score",
+                                                                  function:
+                                                                      () {},
+                                                                  subtitle:
+                                                                      "100%",
+                                                                  context:
+                                                                      context),
+                                                              const SizedBox(
+                                                                  height: 5),
+                                                              bottomSheetItems(
+                                                                  title:
+                                                                      "Acceptance Rate",
+                                                                  function:
+                                                                      () {},
+                                                                  subtitle:
+                                                                      "100%",
+                                                                  context:
+                                                                      context)
+                                                            ],
+                                                          ))
+                                                        ],
+                                                      ),
+                                                    )
                                                   ],
                                                 ),
                                               ),
@@ -332,7 +416,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                 duration: const Duration(milliseconds: 200),
                 child: (state is StatusOffline)
                     ? SizedBox(
-                        height: 100,
+                        height: 60,
                         width: MediaQuery.of(context).size.width,
                         child: SwipeButton.expand(
                             elevationThumb: 0,
@@ -401,14 +485,54 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
           heroTag: 'fabMenu',
           elevation: 0,
           mini: true,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           onPressed: onPressed,
-          backgroundColor: CustomTheme.primaryColors.shade50,
+          backgroundColor: Colors.white,
           child: Icon(
             iconData,
             color: Colors.black,
           )),
+    );
+  }
+
+  Widget bottomSheetItems(
+      {required title,
+      required Function() function,
+      required subtitle,
+      required context}) {
+    return InkWell(
+      onTap: function,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(10)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 17, color: Colors.grey),
+                ),
+                const Icon(
+                  Icons.arrow_forward_ios_sharp,
+                  color: Colors.grey,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              subtitle,
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
