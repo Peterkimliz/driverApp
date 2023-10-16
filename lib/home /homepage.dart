@@ -15,7 +15,6 @@ import 'package:safiri/schema.gql.dart';
 import 'package:safiri/unregistered_driver_messages_view.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -84,7 +83,8 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                         snapshot.data?.buildNumber ??
                                             "999999")),
                                 onComplete: (result, parsedData) {
-                                  if (parsedData?.requireUpdate == Enum$VersionStatus.MandatoryUpdate) {
+                                  if (parsedData?.requireUpdate ==
+                                      Enum$VersionStatus.MandatoryUpdate) {
                                     mainBloc.add(VersionStatusEvent(
                                         parsedData!.requireUpdate));
                                   } else {
@@ -127,18 +127,18 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                               return BlocConsumer<MainBloc, MainState>(
                                   listenWhen:
                                       (MainState previous, MainState next) {
-                                    if (previous is StatusUnregistered &&
-                                        next is StatusUnregistered &&
-                                        previous.driver?.status ==
-                                            next.driver?.status) {
-                                      return false;
-                                    }
-                                    if ((previous is StatusOnline) &&
-                                        next is StatusOnline) {
-                                      return false;
-                                    }
-                                    return true;
-                                  }, listener: (context, state) {
+                                if (previous is StatusUnregistered &&
+                                    next is StatusUnregistered &&
+                                    previous.driver?.status ==
+                                        next.driver?.status) {
+                                  return false;
+                                }
+                                if ((previous is StatusOnline) &&
+                                    next is StatusOnline) {
+                                  return false;
+                                }
+                                return true;
+                              }, listener: (context, state) {
                                 if (state is StatusOnline) {
                                   refetch!();
                                 }
@@ -157,7 +157,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                     minimum: const EdgeInsets.all(16),
                                     child: Row(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         _getMenuButton(),
                                         const Spacer(),
@@ -177,15 +177,19 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                       right: 0,
                                       child: NoticeBar(
                                           title: state is StatusOffline
-                                              ? S.of(context).status_offline_description
-                                              : S.of(context).status_online_description),
+                                              ? S
+                                                  .of(context)
+                                                  .status_offline_description
+                                              : S
+                                                  .of(context)
+                                                  .status_online_description),
                                     ),
                                   if (state is StatusOnline)
                                     Positioned(
                                       bottom: 0,
                                       child: SizedBox(
                                           width:
-                                          MediaQuery.of(context).size.width,
+                                              MediaQuery.of(context).size.width,
                                           height: 400,
                                           child: OrdersCarouselView()),
                                     ),
@@ -196,14 +200,14 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                       child: Subscription$OrderUpdated$Widget(
                                           onSubscriptionResult:
                                               (subscriptionResult, client) {
-                                            if (subscriptionResult.data != null) {
-                                              // TODO: Try emitting the same value as current order updated fragment.
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) {
-                                                refetch!();
-                                              });
-                                            }
-                                          }, builder: (result) {
+                                        if (subscriptionResult.data != null) {
+                                          // TODO: Try emitting the same value as current order updated fragment.
+                                          WidgetsBinding.instance
+                                              .addPostFrameCallback((_) {
+                                            refetch!();
+                                          });
+                                        }
+                                      }, builder: (result) {
                                         return SizedBox(
                                             width: MediaQuery.of(context)
                                                 .size
@@ -217,8 +221,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                               });
                             });
                       }));
-            })
-    );
+            }));
   }
 
   Widget getMapProvider(Box box) {
@@ -262,50 +265,50 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                 duration: const Duration(milliseconds: 200),
                 child: (state is StatusOffline)
                     ? FloatingActionButton.extended(
-                  key: const Key('offline'),
-                  heroTag: 'fabOffline',
-                  extendedPadding:
-                  const EdgeInsets.symmetric(horizontal: 36),
-                  elevation: 0,
-                  backgroundColor: CustomTheme.primaryColors,
-                  foregroundColor: Colors.white,
-                  onPressed: (result?.isLoading ?? false)
-                      ? null
-                      : () async {
-                    final fcmId = await getFcmId(context);
-                    runMutation(
-                        Variables$Mutation$UpdateDriverStatus(
-                            status: Enum$DriverStatus.Online,
-                            fcmId: fcmId));
-                  },
-                  label: Text(S.of(context).statusOffline,
-                      style: Theme.of(context).textTheme.headlineSmall),
-                  icon: const Icon(Ionicons.car_sport),
-                )
+                        key: const Key('offline'),
+                        heroTag: 'fabOffline',
+                        extendedPadding:
+                            const EdgeInsets.symmetric(horizontal: 36),
+                        elevation: 0,
+                        backgroundColor: CustomTheme.primaryColors,
+                        foregroundColor: Colors.white,
+                        onPressed: (result?.isLoading ?? false)
+                            ? null
+                            : () async {
+                                final fcmId = await getFcmId(context);
+                                runMutation(
+                                    Variables$Mutation$UpdateDriverStatus(
+                                        status: Enum$DriverStatus.Online,
+                                        fcmId: fcmId));
+                              },
+                        label: Text(S.of(context).statusOffline,
+                            style: Theme.of(context).textTheme.headlineSmall),
+                        icon: const Icon(Ionicons.car_sport),
+                      )
                     : ((state is StatusOnline)
-                    ? FloatingActionButton.extended(
-                  key: const Key('online'),
-                  heroTag: 'fabOnline',
-                  elevation: 0,
-                  onPressed: (result?.isLoading ?? false)
-                      ? null
-                      : () {
-                    runMutation(
-                        Variables$Mutation$UpdateDriverStatus(
-                            status: Enum$DriverStatus.Offline));
-                  },
-                  label: Text(S.of(context).statusOnline,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(
-                          color: CustomTheme
-                              .primaryColors.shade600)),
-                  backgroundColor: CustomTheme.primaryColors.shade200,
-                  foregroundColor: CustomTheme.primaryColors.shade600,
-                  icon: const Icon(Ionicons.power),
-                )
-                    : const SizedBox())),
+                        ? FloatingActionButton.extended(
+                            key: const Key('online'),
+                            heroTag: 'fabOnline',
+                            elevation: 0,
+                            onPressed: (result?.isLoading ?? false)
+                                ? null
+                                : () {
+                                    runMutation(
+                                        Variables$Mutation$UpdateDriverStatus(
+                                            status: Enum$DriverStatus.Offline));
+                                  },
+                            label: Text(S.of(context).statusOnline,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.copyWith(
+                                        color: CustomTheme
+                                            .primaryColors.shade600)),
+                            backgroundColor: CustomTheme.primaryColors.shade200,
+                            foregroundColor: CustomTheme.primaryColors.shade600,
+                            icon: const Icon(Ionicons.power),
+                          )
+                        : const SizedBox())),
           );
         });
   }
@@ -321,7 +324,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
           elevation: 0,
           mini: true,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           onPressed: () => scaffoldKey.currentState?.openDrawer(),
           backgroundColor: CustomTheme.primaryColors.shade50,
           child: const Icon(
@@ -347,8 +350,8 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
           label: Text(
               (state.driver?.wallets.length ?? 0) > 0
                   ? NumberFormat.simpleCurrency(
-                  name: state.driver!.wallets.first.currency)
-                  .format(state.driver!.wallets.first.balance)
+                          name: state.driver!.wallets.first.currency)
+                      .format(state.driver!.wallets.first.balance)
                   : "-",
               style: Theme.of(context)
                   .textTheme
@@ -372,20 +375,20 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title:
-            Text(S.of(context).message_notification_permission_title),
-            content: Text(S
-                .of(context)
-                .message_notification_permission_denined_message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(S.of(context).action_ok),
-              )
-            ],
-          ));
+                title:
+                    Text(S.of(context).message_notification_permission_title),
+                content: Text(S
+                    .of(context)
+                    .message_notification_permission_denined_message),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(S.of(context).action_ok),
+                  )
+                ],
+              ));
       return null;
     } else {
       messaging.onTokenRefresh.listen((event) {

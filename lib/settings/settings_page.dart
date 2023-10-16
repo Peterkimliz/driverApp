@@ -1,3 +1,5 @@
+import 'package:client_shared/components/list_shimmer_skeleton.dart';
+import 'package:client_shared/components/user_avatar_view.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,11 @@ import 'package:safiri/gen/assets.gen.dart';
 import 'package:safiri/settings/map_settings.dart';
 
 import 'package:flutter_gen/gen_l10n/messages.dart';
+import 'package:shimmer/shimmer.dart';
 
+import '../config.dart';
+import '../profile/profile.graphql.dart';
+import '../profile/profile_view.dart';
 import 'language_settings.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -21,11 +27,65 @@ class SettingsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 16),
-              Text(
-                S.of(context).settings,
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
+              Query$GetProfile$Widget(builder: (result, {fetchMore, refetch}) {
+                if (result.isLoading) {
+                  return Shimmer.fromColors(
+                    baseColor: CustomTheme.neutralColors.shade300,
+                    highlightColor: CustomTheme.neutralColors.shade100,
+                    enabled: true,
+                    child: const ListShimmerSkeleton(),
+                  );
+                }
+                final driver = result.parsedData!.driver;
+                return Column(children: [
+                  const SizedBox(height: 4),
+                  Center(
+                    child: Text("${driver.firstName} ${driver.lastName}",
+                        style: Theme.of(context).textTheme.headlineLarge),
+                  ),
+                  const SizedBox(height: 4),
+                  Center(
+                    child: Text(
+                      "+${driver.mobileNumber}",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16
+                      ),
+                    ),
+                  ),
+                  const Divider(),
+
+                  CupertinoButton(
+                    minSize: 0,
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    onPressed:(){},
+                    child: Row(
+                      children: [
+                        Icon(Icons.drive_eta_rounded,size: 20,color:CustomTheme.neutralColors.shade600),
+                        const SizedBox(width: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Vehicles",
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "${driver.carPlate} . ${driver.car?.name}",
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Assets.ionicons.chevronForward.svg(
+                            color: CustomTheme.neutralColors.shade600, width: 20, height: 20),
+                      ],
+                    ),
+                  ),
+                ]);
+              }),
+              const Divider(),
               const SizedBox(height: 16),
               SettingItem(
                 icon: Icons.navigation,
