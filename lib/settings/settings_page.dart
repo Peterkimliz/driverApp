@@ -1,5 +1,4 @@
 import 'package:client_shared/components/list_shimmer_skeleton.dart';
-import 'package:client_shared/components/user_avatar_view.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +9,7 @@ import 'package:safiri/settings/map_settings.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../config.dart';
 import '../profile/profile.graphql.dart';
-import '../profile/profile_view.dart';
 import 'language_settings.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -127,11 +124,7 @@ class SettingsPage extends StatelessWidget {
                 icon:Icons.settings,
                 title: "App Settings",
                 onPressed: () {
-                  showBarModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return const MapSettingsPage();
-                      });
+
                 },
               ),
               const Divider(),
@@ -209,7 +202,7 @@ class SettingItem extends StatelessWidget {
           ),
           const Spacer(),
           Assets.ionicons.chevronForward.svg(
-              color: CustomTheme.neutralColors.shade600, width: 15, height: 15),
+              color: CustomTheme.neutralColors.shade600, width: 20, height: 20),
         ],
       ),
     );

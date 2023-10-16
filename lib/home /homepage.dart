@@ -2,8 +2,8 @@ import 'package:client_shared/config.dart';
 import 'package:client_shared/map_providers.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -22,7 +22,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
 import '../config.dart';
-import '../drawer_view.dart';
+
 import '../main_bloc.dart';
 import '../map_providers/open_street_map_provider.dart';
 import '../order_status_card_view.dart';
@@ -44,19 +44,19 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
     final locationCubit = context.read<CurrentLocationCubit>();
     return Scaffold(
         key: scaffoldKey,
-        drawer: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Drawer(
-            backgroundColor: CustomTheme.primaryColors.shade100,
-            child: BlocBuilder<MainBloc, MainState>(
-              builder: (context, state) {
-                return DrawerView(
-                  driver: state.driver,
-                );
-              },
-            ),
-          ),
-        ),
+        // drawer: ClipRRect(
+        //   borderRadius: BorderRadius.circular(10),
+        //   child: Drawer(
+        //     backgroundColor: CustomTheme.primaryColors.shade100,
+        //     child: BlocBuilder<MainBloc, MainState>(
+        //       builder: (context, state) {
+        //         return DrawerView(
+        //           driver: state.driver,
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // ),
         body: ValueListenableBuilder(
             valueListenable: Hive.box('user').listenable(),
             builder: (context, Box box, widget) {
@@ -155,17 +155,31 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                           getMapProvider(box)),
                                   SafeArea(
                                     minimum: const EdgeInsets.all(16),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        _getMenuButton(),
-                                        const Spacer(),
-                                        _getWalletButton(context, state),
-                                        if (state is! StatusInService)
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          _getMenuButton(
+                                              iconData: Icons.search,
+                                              onPressed: () {
+                                                print("hello");
+                                              }),
                                           const Spacer(),
-                                        _getOnlineOfflineButton(context, state)
-                                      ],
+                                          if (state is! StatusInService &&
+                                              state is StatusOnline)
+                                            _getOnlineOfflineButton(
+                                                context, state),
+                                          const Spacer(),
+                                          _getMenuButton(
+                                              iconData:
+                                                  Icons.add_moderator_sharp,
+                                              onPressed: () {
+                                                print("sasa");
+                                              })
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   if (state is StatusOffline ||
@@ -217,6 +231,59 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                     .currentOrders.first));
                                       }),
                                     ),
+                                  SizedBox.expand(
+                                    child: DraggableScrollableSheet(
+                                        initialChildSize: 0.3,
+                                        minChildSize: 0.3,
+                                        maxChildSize: 0.6,
+                                        expand: false,
+                                        snap: false,
+                                        builder: (BuildContext context,
+                                            ScrollController scrollController) {
+                                          return ListView(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            controller: scrollController,
+                                            children: [
+                                              Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.8,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topRight: Radius.circular(
+                                                          state is! StatusInService &&
+                                                                  state
+                                                                      is StatusOffline
+                                                              ? 0
+                                                              : 30),
+                                                      topLeft: Radius.circular(
+                                                          state is! StatusInService &&
+                                                                  state
+                                                                      is StatusOffline
+                                                              ? 0
+                                                              : 30),
+                                                    )),
+                                                child: Column(
+                                                  children: [
+                                                    if (state
+                                                            is! StatusInService &&
+                                                        state is StatusOffline)
+                                                      _getOnlineOfflineButton(
+                                                          context, state),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }),
+                                  )
                                 ]);
                               });
                             });
@@ -264,56 +331,67 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
             child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: (state is StatusOffline)
-                    ? FloatingActionButton.extended(
-                        key: const Key('offline'),
-                        heroTag: 'fabOffline',
-                        extendedPadding:
-                            const EdgeInsets.symmetric(horizontal: 36),
-                        elevation: 0,
-                        backgroundColor: CustomTheme.primaryColors,
-                        foregroundColor: Colors.white,
-                        onPressed: (result?.isLoading ?? false)
-                            ? null
-                            : () async {
-                                final fcmId = await getFcmId(context);
-                                runMutation(
-                                    Variables$Mutation$UpdateDriverStatus(
-                                        status: Enum$DriverStatus.Online,
-                                        fcmId: fcmId));
-                              },
-                        label: Text(S.of(context).statusOffline,
-                            style: Theme.of(context).textTheme.headlineSmall),
-                        icon: const Icon(Ionicons.car_sport),
-                      )
-                    : ((state is StatusOnline)
-                        ? FloatingActionButton.extended(
-                            key: const Key('online'),
-                            heroTag: 'fabOnline',
-                            elevation: 0,
-                            onPressed: (result?.isLoading ?? false)
+                    ? SizedBox(
+                        height: 100,
+                        width: MediaQuery.of(context).size.width,
+                        child: SwipeButton.expand(
+                            elevationThumb: 0,
+                            elevationTrack: 0,
+                            borderRadius: BorderRadius.circular(0),
+                            thumb: const Icon(
+                              Icons.double_arrow_rounded,
+                              color: Colors.white,
+                            ),
+                            child: const Text(
+                              "Go Online",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            activeThumbColor: Colors.transparent,
+                            activeTrackColor: Colors.green,
+                            onSwipe: (result?.isLoading ?? false)
                                 ? null
-                                : () {
+                                : () async {
+                                    final fcmId = await getFcmId(context);
                                     runMutation(
                                         Variables$Mutation$UpdateDriverStatus(
-                                            status: Enum$DriverStatus.Offline));
-                                  },
-                            label: Text(S.of(context).statusOnline,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall
-                                    ?.copyWith(
-                                        color: CustomTheme
-                                            .primaryColors.shade600)),
-                            backgroundColor: CustomTheme.primaryColors.shade200,
-                            foregroundColor: CustomTheme.primaryColors.shade600,
-                            icon: const Icon(Ionicons.power),
+                                            status: Enum$DriverStatus.Online,
+                                            fcmId: fcmId));
+                                  }))
+                    : ((state is StatusOnline)
+                        ? SizedBox(
+                            height: 100,
+                            width: 200,
+                            child: SwipeButton.expand(
+                                thumb: const Icon(
+                                  Icons.double_arrow_rounded,
+                                  color: Colors.white,
+                                ),
+                                child: const Text(
+                                  "Go Offline",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                activeThumbColor: Colors.transparent,
+                                activeTrackColor: Colors.orange,
+                                onSwipe: (result?.isLoading ?? false)
+                                    ? null
+                                    : () {
+                                        runMutation(
+                                            Variables$Mutation$UpdateDriverStatus(
+                                                status:
+                                                    Enum$DriverStatus.Offline));
+                                      }),
                           )
                         : const SizedBox())),
           );
         });
   }
 
-  Widget _getMenuButton() {
+  Widget _getMenuButton(
+      {required IconData iconData, required Function() onPressed}) {
     return Container(
       decoration: const BoxDecoration(boxShadow: [
         BoxShadow(
@@ -325,10 +403,10 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
           mini: true,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          onPressed: () => scaffoldKey.currentState?.openDrawer(),
+          onPressed: onPressed,
           backgroundColor: CustomTheme.primaryColors.shade50,
-          child: const Icon(
-            Icons.menu,
+          child: Icon(
+            iconData,
             color: Colors.black,
           )),
     );
