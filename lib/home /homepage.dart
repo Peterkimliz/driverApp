@@ -20,6 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:swipeable_button_view/swipeable_button_view.dart';
 
 import '../config.dart';
 
@@ -411,34 +412,70 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
             child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: (state is StatusOffline)
-                    ? SizedBox(
+                    ? Container(
+                  color: Colors.green,
                         height: 60,
                         width: MediaQuery.of(context).size.width,
-                        child: SwipeButton.expand(
+                        child:  Container(
+                          height: 60,
+                          padding: const EdgeInsets.only(right: 180),
+                          child: SwipeButton(
+                            trackPadding: const EdgeInsets.all(0),
                             elevationThumb: 0,
-                            elevationTrack: 0,
-                            borderRadius: BorderRadius.circular(0),
                             thumb: const Icon(
-                              Icons.double_arrow_rounded,
-                              color: Colors.white,
-                            ),
+                                    Icons.double_arrow_rounded,
+                                    color: Colors.white,
+                                  ) ,
+                            borderRadius: BorderRadius.circular(0),
+                            activeTrackColor: Colors.green,
+                            activeThumbColor: Colors.green,
+                            onSwipe:(result?.isLoading ?? false)
+                                ? null
+                                : () async {
+                              final fcmId = await getFcmId(context);
+                              runMutation(
+                                  Variables$Mutation$UpdateDriverStatus(
+                                      status: Enum$DriverStatus.Online,
+                                      fcmId: fcmId));
+                            },
                             child: const Text(
                               "Go Online",
                               style: TextStyle(
                                 color: Colors.white,
                               ),
                             ),
-                            activeThumbColor: Colors.transparent,
-                            activeTrackColor: Colors.green,
-                            onSwipe: (result?.isLoading ?? false)
-                                ? null
-                                : () async {
-                                    final fcmId = await getFcmId(context);
-                                    runMutation(
-                                        Variables$Mutation$UpdateDriverStatus(
-                                            status: Enum$DriverStatus.Online,
-                                            fcmId: fcmId));
-                                  }))
+                          ),
+                        )
+
+
+                        // SwipeButton.expand(
+                        //     elevationThumb: 0,
+                        //     elevationTrack: 0,
+                        //     borderRadius: BorderRadius.circular(0),
+                        //     thumb: const Icon(
+                        //       Icons.double_arrow_rounded,
+                        //       color: Colors.white,
+                        //     ),
+                        //     child: const Text(
+                        //       "Go Online",
+                        //       style: TextStyle(
+                        //         color: Colors.white,
+                        //       ),
+                        //     ),
+                        //     activeThumbColor: Colors.transparent,
+                        //     activeTrackColor: Colors.green,
+                        //     onSwipe:(){
+                        //       (result?.isLoading ?? false)
+                        //           ? null
+                        //           : () async {
+                        //         final fcmId = await getFcmId(context);
+                        //         runMutation(
+                        //             Variables$Mutation$UpdateDriverStatus(
+                        //                 status: Enum$DriverStatus.Online,
+                        //                 fcmId: fcmId));
+                        //       };
+                        //     })
+            )
                     : ((state is StatusOnline)
                         ? SizedBox(
                             height: 100,
@@ -447,12 +484,6 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                 thumb: const Icon(
                                   Icons.double_arrow_rounded,
                                   color: Colors.white,
-                                ),
-                                child: const Text(
-                                  "Go Offline",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
                                 ),
                                 activeThumbColor: Colors.transparent,
                                 activeTrackColor: Colors.orange,
@@ -463,7 +494,13 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                             Variables$Mutation$UpdateDriverStatus(
                                                 status:
                                                     Enum$DriverStatus.Offline));
-                                      }),
+                                      },
+                                child: const Text(
+                                  "Go Offline",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                )),
                           )
                         : const SizedBox())),
           );
@@ -509,7 +546,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
               BoxShadow(
                   color: Color(0x2e4a5569),
                   offset: Offset(0, 3),
-                  blurRadius: 10)
+                  blurRadius: 5)
             ]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -524,6 +561,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                 const Icon(
                   Icons.arrow_forward_ios_sharp,
                   color: Colors.grey,
+                  size: 15,
                 )
               ],
             ),

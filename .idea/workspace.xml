@@ -13,12 +13,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="added the bottom sheet in the home page">
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="removed the  shadow in the home page bottomsheet">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/home /homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /homepage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/home /trial.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/profile/profile_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/profile/profile_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/settings/settings_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/settings/settings_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +119,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697452251945</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="removed the  shadow in the home page bottomsheet">
+      <created>1697523260226</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1697523260226</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -141,29 +147,34 @@
     <MESSAGE value="formatted the profile page" />
     <MESSAGE value="added the swippable buttons" />
     <MESSAGE value="added the bottom sheet in the home page" />
-    <option name="LAST_COMMIT_MESSAGE" value="added the bottom sheet in the home page" />
+    <MESSAGE value="removed the  shadow in the home page bottomsheet" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed the  shadow in the home page bottomsheet" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1363" height="251" key="GridCell.Tab.0.bottom" timestamp="1697445339966">
+    <state width="1363" height="251" key="GridCell.Tab.0.bottom" timestamp="1697529335533">
       <screen x="0" y="25" width="1440" height="790" />
     </state>
-    <state width="1363" height="251" key="GridCell.Tab.0.bottom/0.25.1440.790@0.25.1440.790" timestamp="1697445339966" />
-    <state width="1363" height="251" key="GridCell.Tab.0.center" timestamp="1697445339965">
+    <state width="1363" height="251" key="GridCell.Tab.0.bottom/0.25.1440.790@0.25.1440.790" timestamp="1697529335533" />
+    <state width="1363" height="251" key="GridCell.Tab.0.center" timestamp="1697529335532">
       <screen x="0" y="25" width="1440" height="790" />
     </state>
-    <state width="1363" height="251" key="GridCell.Tab.0.center/0.25.1440.790@0.25.1440.790" timestamp="1697445339965" />
-    <state width="1363" height="251" key="GridCell.Tab.0.left" timestamp="1697445339965">
+    <state width="1363" height="251" key="GridCell.Tab.0.center/0.25.1440.790@0.25.1440.790" timestamp="1697529335532" />
+    <state width="1363" height="251" key="GridCell.Tab.0.left" timestamp="1697529335531">
       <screen x="0" y="25" width="1440" height="790" />
     </state>
-    <state width="1363" height="251" key="GridCell.Tab.0.left/0.25.1440.790@0.25.1440.790" timestamp="1697445339965" />
-    <state width="1363" height="251" key="GridCell.Tab.0.right" timestamp="1697445339966">
+    <state width="1363" height="251" key="GridCell.Tab.0.left/0.25.1440.790@0.25.1440.790" timestamp="1697529335531" />
+    <state width="1363" height="251" key="GridCell.Tab.0.right" timestamp="1697529335533">
       <screen x="0" y="25" width="1440" height="790" />
     </state>
-    <state width="1363" height="251" key="GridCell.Tab.0.right/0.25.1440.790@0.25.1440.790" timestamp="1697445339966" />
-    <state x="302" y="157" key="Vcs.Push.Dialog.v2" timestamp="1697522910212">
+    <state width="1363" height="251" key="GridCell.Tab.0.right/0.25.1440.790@0.25.1440.790" timestamp="1697529335533" />
+    <state x="211" y="56" key="SettingsEditor" timestamp="1697530130210">
       <screen x="0" y="25" width="1440" height="790" />
     </state>
-    <state x="302" y="157" key="Vcs.Push.Dialog.v2/0.25.1440.790@0.25.1440.790" timestamp="1697522910212" />
+    <state x="211" y="56" key="SettingsEditor/0.25.1440.790@0.25.1440.790" timestamp="1697530130210" />
+    <state x="302" y="157" key="Vcs.Push.Dialog.v2" timestamp="1697523485896">
+      <screen x="0" y="25" width="1440" height="790" />
+    </state>
+    <state x="302" y="157" key="Vcs.Push.Dialog.v2/0.25.1440.790@0.25.1440.790" timestamp="1697523485896" />
     <state x="337" y="158" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1697205625014">
       <screen x="0" y="25" width="1440" height="790" />
     </state>
