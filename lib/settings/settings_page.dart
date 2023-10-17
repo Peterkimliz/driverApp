@@ -2,6 +2,8 @@ import 'package:client_shared/components/list_shimmer_skeleton.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:safiri/gen/assets.gen.dart';
 import 'package:safiri/settings/map_settings.dart';
@@ -37,28 +39,27 @@ class SettingsPage extends StatelessWidget {
                 return Column(children: [
                   const SizedBox(height: 4),
                   Center(
-                    child: Text("${driver.firstName} ${driver.lastName}",
+                    child: Text(
+                        "${toBeginningOfSentenceCase(driver.firstName)} ${toBeginningOfSentenceCase(driver.lastName)}",
                         style: Theme.of(context).textTheme.headlineLarge),
                   ),
                   const SizedBox(height: 4),
                   Center(
                     child: Text(
                       "+${driver.mobileNumber}",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16
-                      ),
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                   ),
                   const Divider(),
-
                   CupertinoButton(
                     minSize: 0,
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    onPressed:(){},
+                    onPressed: () {},
                     child: Row(
                       children: [
-                        Icon(Icons.drive_eta_rounded,size: 20,color:CustomTheme.neutralColors.shade600),
+                        Icon(Icons.drive_eta_rounded,
+                            size: 20,
+                            color: CustomTheme.neutralColors.shade600),
                         const SizedBox(width: 12),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +77,9 @@ class SettingsPage extends StatelessWidget {
                         ),
                         const Spacer(),
                         Assets.ionicons.chevronForward.svg(
-                            color: CustomTheme.neutralColors.shade600, width: 20, height: 20),
+                            color: CustomTheme.neutralColors.shade600,
+                            width: 20,
+                            height: 20),
                       ],
                     ),
                   ),
@@ -85,7 +88,7 @@ class SettingsPage extends StatelessWidget {
               const Divider(),
               const SizedBox(height: 16),
               SettingItem(
-                icon: Icons.navigation,
+                icon: Ionicons.navigate,
                 title: "Navigate",
                 onPressed: () {
                   showBarModalBottomSheet(
@@ -108,7 +111,7 @@ class SettingsPage extends StatelessWidget {
               const Divider(),
               const SizedBox(height: 16),
               SettingItem(
-                icon:Icons.language,
+                icon: Icons.language,
                 title: S.of(context).languageSettings,
                 onPressed: () {
                   showBarModalBottomSheet(
@@ -118,24 +121,20 @@ class SettingsPage extends StatelessWidget {
                       });
                 },
               ),
-              const Divider(),  const SizedBox(height: 16),
+              const Divider(), const SizedBox(height: 16),
 
               SettingItem(
-                icon:Icons.settings,
+                icon: Icons.settings,
                 title: "App Settings",
-                onPressed: () {
-
-                },
+                onPressed: () {},
               ),
               const Divider(),
               const SizedBox(height: 16),
 
               SettingItem(
-                icon:Icons.help,
+                icon: Icons.help,
                 title: "Support",
-                onPressed: () {
-
-                },
+                onPressed: () {},
               ),
               const Divider(),
               const SizedBox(height: 16),
@@ -175,11 +174,12 @@ class SettingItem extends StatelessWidget {
   final IconData icon;
   final String title;
   final Function() onPressed;
+
   const SettingItem(
       {Key? key,
-        required this.icon,
-        required this.title,
-        required this.onPressed})
+      required this.icon,
+      required this.title,
+      required this.onPressed})
       : super(key: key);
 
   @override
@@ -190,7 +190,7 @@ class SettingItem extends StatelessWidget {
       onPressed: onPressed,
       child: Row(
         children: [
-          Icon(icon,size: 20,color:CustomTheme.neutralColors.shade600),
+          Icon(icon, size: 20, color: CustomTheme.neutralColors.shade600),
           // icon.svg(
           //     width: 20,
           //     height: 20,
@@ -208,4 +208,3 @@ class SettingItem extends StatelessWidget {
     );
   }
 }
-

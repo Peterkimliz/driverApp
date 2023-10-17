@@ -56,7 +56,7 @@ class _ProfileViewState extends State<ProfileView> {
                             size: 82),
                       ),
                       const SizedBox(height: 4),
-                      Text("${driver.firstName} ${driver.lastName}",
+                      Text("${driver.firstName} ${driver.lastName}".toUpperCase(),
                           style: Theme.of(context).textTheme.headlineLarge),
                       Text(
                         "+${driver.mobileNumber}",

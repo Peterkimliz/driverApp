@@ -163,9 +163,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                         children: [
                                           _getMenuButton(
                                               iconData: Icons.search,
-                                              onPressed: () {
-                                                print("hello");
-                                              }),
+                                              onPressed: () {}),
                                           const Spacer(),
                                           if (state is! StatusInService &&
                                               state is StatusOnline)
@@ -173,11 +171,8 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                 context, state),
                                           const Spacer(),
                                           _getMenuButton(
-                                              iconData:
-                                                  Icons.add_moderator_sharp,
-                                              onPressed: () {
-                                                print("sasa");
-                                              })
+                                              iconData: Icons.add_moderator,
+                                              onPressed: () {})
                                         ],
                                       ),
                                     ),
@@ -254,7 +249,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                     .size
                                                     .width,
                                                 decoration: BoxDecoration(
-                                                    color: Colors.grey.shade300,
+                                                    color: Colors.white,
                                                     borderRadius:
                                                         BorderRadius.only(
                                                       topRight: Radius.circular(
@@ -305,9 +300,9 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                         ],
                                                       ),
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.symmetric(
-                                                              horizontal: 7),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 7),
                                                       child: Row(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
@@ -316,9 +311,10 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                           Expanded(
                                                               child: Container(
                                                                   height: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .height*0.25,
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.25,
                                                                   child: bottomSheetItems(
                                                                       title:
                                                                           "Today's Earnings",
@@ -395,11 +391,11 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
 
   Widget _getOnlineOfflineButton(BuildContext context, MainState state) {
     final mainBloc = context.read<MainBloc>();
-
     return Mutation$UpdateDriverStatus$Widget(
         options: WidgetOptions$Mutation$UpdateDriverStatus(
           onCompleted: (result, parsedData) {
             if (parsedData?.updateOneDriver == null) return;
+
             mainBloc.add(DriverUpdated(parsedData!.updateOneDriver));
           },
           onError: (error) => showOperationErrorMessage(context, error),
@@ -485,7 +481,8 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
           heroTag: 'fabMenu',
           elevation: 0,
           mini: true,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           onPressed: onPressed,
           backgroundColor: Colors.white,
           child: Icon(
@@ -506,7 +503,14 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
         padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0x2e4a5569),
+                  offset: Offset(0, 3),
+                  blurRadius: 10)
+            ]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
