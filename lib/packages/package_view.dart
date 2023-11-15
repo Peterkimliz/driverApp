@@ -27,7 +27,7 @@ class PackagesView extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios)),
+            icon: const Icon(Icons.arrow_back_ios)),
         backgroundColor: Colors.white,
       ),
       body: BlocBuilder<PackageBloc, PackageState>(builder: (context, state) {
@@ -214,7 +214,7 @@ class PackageContainer extends StatelessWidget {
                           textEditingController: textEditingController,
                           packageId: package.id);
                     },
-                    child: Align(
+                    child: const Align(
                       alignment: Alignment.bottomRight,
                       child: Text(
                         "Give Offer",
@@ -225,7 +225,7 @@ class PackageContainer extends StatelessWidget {
                 if (package.drivers?.indexWhere((element) =>
                         element.id == FirebaseAuth.instance.currentUser!.uid) !=
                     -1)
-                  Align(
+                  const Align(
                     alignment: Alignment.bottomRight,
                     child: Text(
                       "Offer Sent",
