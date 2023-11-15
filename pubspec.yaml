@@ -55,10 +55,13 @@ dependencies:
   url_launcher: ^6.1.12
   client_shared:
     path: ../../libs/client-shared
-  flutter_ringtone_player: ^3.2.0
+  flutter_ringtone_player:
   maps_toolkit: ^2.0.1
   flutter_swipe_button: ^2.1.1+1
   swipeable_button_view: ^0.0.2
+  cloud_firestore:
+  cached_network_image: ^3.3.0
+  dotted_dashed_line: ^0.0.3
 
 dev_dependencies:
   build_runner: ^2.4.5

@@ -13,7 +13,27 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="fixed the swipper button of the home page" />
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="fixed the swipper button of the home page">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/packages/bloc/package_state.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/packages/package.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/packages/package_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/repositories/package_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/driver-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/driver-app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/home /homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /homepage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/register/register_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/register/register_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,6 +49,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2Wf2CdQIML5KsbMOFkMa5nxFEur" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -36,16 +59,25 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/fredrickmundia/Downloads/codecanyon-GPeHs8Ui-ridy-flutter-full-taxi-solution/apps/driver-app/lib&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib" />
+      <recent name="$PROJECT_DIR$/lib/packages" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/android/app" />
       <recent name="$PROJECT_DIR$/images" />
       <recent name="$PROJECT_DIR$/lib" />
     </key>
@@ -128,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697531037821</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fixed the swipper button of the home page">
+      <created>1697531200460</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1697531200460</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -141,7 +180,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="changed the theme from bluish to green" />
@@ -152,43 +190,5 @@
     <MESSAGE value="removed the  shadow in the home page bottomsheet" />
     <MESSAGE value="fixed the swipper button of the home page" />
     <option name="LAST_COMMIT_MESSAGE" value="fixed the swipper button of the home page" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1363" height="251" key="GridCell.Tab.0.bottom" timestamp="1697531087127">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state width="1363" height="251" key="GridCell.Tab.0.bottom/0.25.1440.790@0.25.1440.790" timestamp="1697531087127" />
-    <state width="1363" height="251" key="GridCell.Tab.0.center" timestamp="1697531087127">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state width="1363" height="251" key="GridCell.Tab.0.center/0.25.1440.790@0.25.1440.790" timestamp="1697531087127" />
-    <state width="1363" height="251" key="GridCell.Tab.0.left" timestamp="1697531087126">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state width="1363" height="251" key="GridCell.Tab.0.left/0.25.1440.790@0.25.1440.790" timestamp="1697531087126" />
-    <state width="1363" height="251" key="GridCell.Tab.0.right" timestamp="1697531087127">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state width="1363" height="251" key="GridCell.Tab.0.right/0.25.1440.790@0.25.1440.790" timestamp="1697531087127" />
-    <state x="211" y="56" key="SettingsEditor" timestamp="1697530130210">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state x="211" y="56" key="SettingsEditor/0.25.1440.790@0.25.1440.790" timestamp="1697530130210" />
-    <state x="302" y="157" key="Vcs.Push.Dialog.v2" timestamp="1697531045216">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state x="302" y="157" key="Vcs.Push.Dialog.v2/0.25.1440.790@0.25.1440.790" timestamp="1697531045216" />
-    <state x="337" y="158" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1697205625014">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state x="337" y="158" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/0.25.1440.790@0.25.1440.790" timestamp="1697205625014" />
-    <state x="504" y="338" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1697122714552">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state x="504" y="338" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1440.790@0.25.1440.790" timestamp="1697122714552" />
-    <state x="381" y="140" width="694" height="490" key="find.popup" timestamp="1697460788543">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state x="381" y="140" width="694" height="490" key="find.popup/0.25.1440.790@0.25.1440.790" timestamp="1697460788543" />
   </component>
 </project>

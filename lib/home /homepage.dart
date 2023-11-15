@@ -28,6 +28,7 @@ import '../main_bloc.dart';
 import '../map_providers/open_street_map_provider.dart';
 import '../order_status_card_view.dart';
 import '../orders_carousel_view.dart';
+import '../packages/package_view.dart';
 import '../query_result_view.dart';
 
 class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
@@ -316,15 +317,34 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                                           .size
                                                                           .height *
                                                                       0.25,
-                                                                  child: bottomSheetItems(
-                                                                      title:
-                                                                          "Today's Earnings",
-                                                                      function:
-                                                                          () {},
-                                                                      subtitle:
-                                                                          "Kes.200",
-                                                                      context:
-                                                                          context))),
+                                                                  child: Column(
+                                                                    children: [
+                                                                      bottomSheetItems(
+                                                                          title:
+                                                                              "Today's Earnings",
+                                                                          function:
+                                                                              () {},
+                                                                          subtitle:
+                                                                              "Kes.200",
+                                                                          context:
+                                                                              context),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              10),
+                                                                      bottomSheetItems(
+                                                                          title:
+                                                                              "Packages",
+                                                                          function:
+                                                                              () {
+                                                                            Navigator.push(context,
+                                                                                MaterialPageRoute(builder: (context) => PackagesView()));
+                                                                          },
+                                                                          subtitle:
+                                                                              "",
+                                                                          context:
+                                                                              context)
+                                                                    ],
+                                                                  ))),
                                                           const SizedBox(
                                                               width: 5),
                                                           Expanded(
@@ -413,31 +433,31 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                 duration: const Duration(milliseconds: 200),
                 child: (state is StatusOffline)
                     ? Container(
-                  color: Colors.green,
+                        color: Colors.green,
                         height: 60,
                         width: MediaQuery.of(context).size.width,
-                        child:  Container(
+                        child: Container(
                           height: 60,
                           padding: const EdgeInsets.only(right: 180),
                           child: SwipeButton(
                             trackPadding: const EdgeInsets.all(0),
                             elevationThumb: 0,
                             thumb: const Icon(
-                                    Icons.double_arrow_rounded,
-                                    color: Colors.white,
-                                  ) ,
+                              Icons.double_arrow_rounded,
+                              color: Colors.white,
+                            ),
                             borderRadius: BorderRadius.circular(0),
                             activeTrackColor: Colors.green,
                             activeThumbColor: Colors.green,
-                            onSwipe:(result?.isLoading ?? false)
+                            onSwipe: (result?.isLoading ?? false)
                                 ? null
                                 : () async {
-                              final fcmId = await getFcmId(context);
-                              runMutation(
-                                  Variables$Mutation$UpdateDriverStatus(
-                                      status: Enum$DriverStatus.Online,
-                                      fcmId: fcmId));
-                            },
+                                    final fcmId = await getFcmId(context);
+                                    runMutation(
+                                        Variables$Mutation$UpdateDriverStatus(
+                                            status: Enum$DriverStatus.Online,
+                                            fcmId: fcmId));
+                                  },
                             child: const Text(
                               "Go Online",
                               style: TextStyle(
@@ -446,7 +466,6 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                             ),
                           ),
                         )
-
 
                         // SwipeButton.expand(
                         //     elevationThumb: 0,
@@ -475,7 +494,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                         //                 fcmId: fcmId));
                         //       };
                         //     })
-            )
+                        )
                     : ((state is StatusOnline)
                         ? SizedBox(
                             height: 100,
@@ -544,9 +563,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
             borderRadius: BorderRadius.circular(10),
             boxShadow: const [
               BoxShadow(
-                  color: Color(0x2e4a5569),
-                  offset: Offset(0, 3),
-                  blurRadius: 5)
+                  color: Color(0x2e4a5569), offset: Offset(0, 3), blurRadius: 5)
             ]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

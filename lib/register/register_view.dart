@@ -21,6 +21,7 @@ class RegisterView extends StatefulWidget {
     Enum$DriverStatus.PendingApproval,
     Enum$DriverStatus.SoftReject
   ];
+
   const RegisterView({Key? key}) : super(key: key);
 
   @override

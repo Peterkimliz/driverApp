@@ -1,4 +1,3 @@
-
 import 'package:client_shared/config.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:country_codes/country_codes.dart';
@@ -9,8 +8,10 @@ import 'package:lifecycle/lifecycle.dart';
 import 'package:safiri/chat/chat_view.dart';
 import 'package:safiri/current_location_cubit.dart';
 import 'package:safiri/earnings/earnings_view.dart';
+import 'package:safiri/packages/bloc/package_bloc.dart';
 import 'package:safiri/profile/profile_view.dart';
 import 'package:safiri/register/register_view.dart';
+import 'package:safiri/repositories/package_repository.dart';
 import 'package:safiri/settings/settings_page.dart';
 
 import 'announcements/announcements_view.dart';
@@ -35,8 +36,7 @@ void main() async {
   await initHiveForFlutter();
   WidgetsFlutterBinding.ensureInitialized();
   await Geolocator.requestPermission();
-  await Firebase.initializeApp(
-  );
+  await Firebase.initializeApp();
   await FirebaseAppCheck.instance.activate(
     webRecaptchaSiteKey: 'recaptcha-v3-site-key',
     androidProvider:
@@ -55,6 +55,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Box>(
@@ -65,7 +66,11 @@ class MyApp extends StatelessWidget {
             BlocProvider<MainBloc>(
                 lazy: false, create: (context) => MainBloc()),
             BlocProvider<CurrentLocationCubit>(
-                lazy: false, create: (context) => CurrentLocationCubit())
+                lazy: false, create: (context) => CurrentLocationCubit()),
+            BlocProvider<PackageBloc>(
+                lazy: false,
+                create: (context) =>
+                    PackageBloc(packageRepository: PackageRepository()))
           ],
           child: MyGraphqlProvider(
             uri: "${serverUrl}graphql",
@@ -104,4 +109,3 @@ class MyApp extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
-
