@@ -4,11 +4,13 @@ import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:safiri/packages/package_details.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'bloc/package_bloc.dart';
 import 'bloc/package_events.dart';
 import 'bloc/package_state.dart';
+import 'offer_bottom.dart';
 import 'package.dart';
 
 class PackagesView extends StatelessWidget {
@@ -40,7 +42,7 @@ class PackagesView extends StatelessWidget {
                 itemCount: state.packages.length,
                 itemBuilder: (context, index) {
                   Package package = state.packages.elementAt(index);
-                  return PackageContainer(package: package, type: "active");
+                  return PackageContainer(package: package);
                 });
           }
         }
@@ -52,16 +54,22 @@ class PackagesView extends StatelessWidget {
 
 class PackageContainer extends StatelessWidget {
   Package package;
-  final String type;
 
-  PackageContainer({super.key, required this.package, required this.type});
+  PackageContainer({super.key, required this.package});
+
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PackageDetails(package: package)));
+      },
       child: Container(
         padding: const EdgeInsets.all(10).copyWith(top: 0),
         child: Column(
@@ -181,15 +189,34 @@ class PackageContainer extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.redAccent.withOpacity(0.7),
                             fontSize: 14)),
-                    InkWell(
-                      onTap: () {},
-                      child: Text(
-                        "InProgress",
-                        style: TextStyle(color: Colors.amber, fontSize: 14),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {},
+                    //   child: Text(
+                    //     "InProgress",
+                    //     style: TextStyle(color: Colors.amber, fontSize: 14),
+                    //   ),
+                    // ),
                   ],
                 ),
+                const SizedBox(
+                  height: 5,
+                ),
+                InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    showModalSheet(
+                        context: context,
+                        textEditingController: textEditingController);
+                  },
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      "Give Offer",
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  ),
+                )
               ],
             ),
             const Divider(),

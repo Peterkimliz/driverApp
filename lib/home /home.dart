@@ -52,7 +52,8 @@ class _HomeState extends State<Home> {
                 icon: Icon(Ionicons.chatbox), label: "Inbox"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.watch_later_outlined), label: "Rides"),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: "Settings"),
           ],
         ),
       ),
