@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -201,23 +202,36 @@ class PackageContainer extends StatelessWidget {
                 const SizedBox(
                   height: 5,
                 ),
-                InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () {
-                    showModalSheet(
-                        context: context,
-                        textEditingController: textEditingController,
-                        packageId: package.id);
-                  },
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      "Give Offer",
-                      style: TextStyle(color: Colors.green),
+                if (package.drivers?.indexWhere((element) =>
+                        element.id == FirebaseAuth.instance.currentUser!.uid) ==
+                    -1)
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      showModalSheet(
+                          context: context,
+                          textEditingController: textEditingController,
+                          packageId: package.id);
+                    },
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        "Give Offer",
+                        style: TextStyle(color: Colors.green),
+                      ),
                     ),
                   ),
-                )
+                if (package.drivers?.indexWhere((element) =>
+                        element.id == FirebaseAuth.instance.currentUser!.uid) !=
+                    -1)
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      "Offer Sent",
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  )
               ],
             ),
             const Divider(),

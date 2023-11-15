@@ -69,12 +69,12 @@ class Driver {
 
   factory Driver.fromJson(Map<String, dynamic> json) {
     return Driver(
-      firstName: json["name"],
+      firstName: json["firstName"],
       id: json["id"],
-      lastName: json["description"],
-      offer: json["offerPrice"],
-      profile: json["image"],
-      phone: json["paymentMethod"],
+      lastName: json["lastName"],
+      offer: json["offer"],
+      profile: json["profile"],
+      phone: json["phone"],
     );
   }
 }
