@@ -3,7 +3,10 @@ import 'package:client_shared/components/back_button.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:safiri/packages/bloc/package_bloc.dart';
+import 'package:safiri/packages/bloc/package_state.dart';
 import 'package:safiri/packages/offer_bottom.dart';
 
 import 'package:safiri/packages/package.dart';
@@ -20,7 +23,9 @@ class PackageDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: BlocBuilder<PackageBloc, PackageState>(
+  builder: (context, state) {
+    return SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
           child: SingleChildScrollView(
@@ -144,7 +149,8 @@ class PackageDetails extends StatelessWidget {
                     onTap: () {
                       showModalSheet(
                           context: context,
-                          textEditingController: textEditingController);
+                          textEditingController: textEditingController,
+                          packageId: package.id);
                     },
                     child: Container(
                       width: 200,
@@ -165,7 +171,9 @@ class PackageDetails extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      );
+  },
+),
     );
   }
 }

@@ -207,7 +207,8 @@ class PackageContainer extends StatelessWidget {
                   onTap: () {
                     showModalSheet(
                         context: context,
-                        textEditingController: textEditingController);
+                        textEditingController: textEditingController,
+                        packageId: package.id);
                   },
                   child: Align(
                     alignment: Alignment.bottomRight,
