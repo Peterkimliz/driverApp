@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../package.dart';
+
 abstract class InputsEvents extends Equatable {}
 
 class SearchPackage extends InputsEvents {
@@ -26,7 +28,8 @@ class SendOffer extends InputsEvents {
       required this.driverFirstName,
       required this.driverLastName,
       required this.driverPhone,
-      required this.driverPhoto,required this.packageId});
+      required this.driverPhoto,
+      required this.packageId});
 
   @override
   List<Object?> get props => [
@@ -36,6 +39,17 @@ class SendOffer extends InputsEvents {
         driverPhone,
         driverId,
         driverPhoto,
-    packageId
+        packageId
       ];
+}
+
+class SendMessage extends InputsEvents {
+  final String message;
+  final String id;
+  final Package package;
+
+  SendMessage({required this.message, required this.package, required this.id});
+
+  @override
+  List<Object?> get props => [message, package, id];
 }

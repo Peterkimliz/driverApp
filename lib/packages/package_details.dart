@@ -14,6 +14,8 @@ import 'package:safiri/packages/package.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../repositories/package_repository.dart';
+
 class PackageDetails extends StatelessWidget {
   final Package package;
 
@@ -177,11 +179,15 @@ class PackageDetails extends StatelessWidget {
                           : package.hired?.id ==
                                   FirebaseAuth.instance.currentUser!.uid
                               ? InkWell(
-                                  onTap: () {
+                                  onTap: () async {
+                                    String id = await getChatId(package);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => ChatPage()));
+                                            builder: (context) => ChatPage(
+                                                  package: package,
+                                                  chatId: id,
+                                                )));
                                   },
                                   child: Container(
                                     width: 200,
@@ -211,5 +217,13 @@ class PackageDetails extends StatelessWidget {
         },
       ),
     );
+  }
+
+  static Future<String> getChatId(Package? package) async {
+    List<String> users = [];
+    users.add(FirebaseAuth.instance.currentUser!.uid);
+    users.add(package!.owner!.id!);
+    String id = await PackageRepository().getChatIdInboxes(user: users);
+    return id;
   }
 }

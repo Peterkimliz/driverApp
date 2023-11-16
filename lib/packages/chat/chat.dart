@@ -1,33 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:client_shared/theme/theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:safiri/packages/bloc/package_bloc.dart';
+import 'package:safiri/packages/bloc/package_events.dart';
+import 'package:safiri/packages/chat/chat_model.dart';
 import 'package:safiri/packages/package.dart';
+import 'package:safiri/repositories/package_repository.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
+  final Package? package;
+  final String chatId;
 
+  const ChatPage({super.key, required this.package, required this.chatId});
 
-  ChatPage({super.key});
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
 
-  List chats = [
-    {
-      "message": "hello",
-      "sender": "me",
-    },
-    {
-      "message": "hello",
-      "sender": "him",
-    },
-    {
-      "message": "What the budget",
-      "sender": "me",
-    },
-    {
-      "message": "200 dollars",
-      "sender": "him",
-    }
-  ];
+class _ChatPageState extends State<ChatPage> {
+  TextEditingController textEditingController = TextEditingController();
+  bool showSendMessage = false;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +75,8 @@ class ChatPage extends StatelessWidget {
             const SizedBox(
               width: 5,
             ),
-            const Text("Petro"),
+            Text(
+                "${toBeginningOfSentenceCase(widget.package?.owner?.firstName)}"),
           ],
         ),
         elevation: 0.5,
@@ -89,76 +87,107 @@ class ChatPage extends StatelessWidget {
             children: [
               const SizedBox(height: 10),
               Expanded(
-                child: ListView.builder(
-                    itemCount: chats.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return chats[index]["sender"] == "me"
-                          ? Align(
-                              alignment: Alignment.topRight,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ConstrainedBox(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 250),
-                                    child: Container(
-                                      margin: const EdgeInsets.only(top: 15),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 15),
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.withOpacity(0.4),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("chats")
+                        .doc(widget.chatId)
+                        .collection("chats")
+                        .orderBy("date")
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              // final reversedIndex =
+                              //     snapshot.data!.docs.length - 1 - index;
+                              ChatModel chat = ChatModel.fromJson(
+                                  snapshot.data!.docs[index]);
+                              return chat.senderId ==
+                                      FirebaseAuth.instance.currentUser!.uid
+                                  ? Align(
+                                      alignment: Alignment.topRight,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text(chats[index]["message"]),
-                                          const SizedBox(
-                                            height: 10,
+                                          ConstrainedBox(
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 250),
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 15),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                      horizontal: 15),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey
+                                                    .withOpacity(0.4),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Text(chat.message!),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                      "${DateFormat("dd-MM-yyyy hh:mm a").format(chat.date!)}"),
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          Text(
-                                              "${DateFormat("dd-MM-yyyy hh:mm a").format(DateTime.now())}"),
                                         ],
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ConstrainedBox(
-                                  constraints:
-                                      const BoxConstraints(maxWidth: 250),
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 15),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 15),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    )
+                                  : Row(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        const Text(
-                                            "Hello there thanks ty yeah sdgfjgslkdfhiksdzh"),
-                                        const SizedBox(
-                                          height: 10,
+                                        ConstrainedBox(
+                                          constraints: const BoxConstraints(
+                                              maxWidth: 250),
+                                          child: Container(
+                                            margin:
+                                                const EdgeInsets.only(top: 15),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 15),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.grey.withOpacity(0.1),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                    "Hello there thanks ty yeah sdgfjgslkdfhiksdzh"),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(DateFormat(
+                                                        "dd-MM-yyyy hh:mm a")
+                                                    .format(DateTime.now())),
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                        Text(DateFormat("dd-MM-yyyy hh:mm a")
-                                            .format(DateTime.now())),
                                       ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
+                                    );
+                            });
+                      } else {
+                        return const Center(child: Text("no chats"));
+                      }
                     }),
               ),
               const SizedBox(
@@ -182,9 +211,20 @@ class ChatPage extends StatelessWidget {
                 children: [
                   Expanded(
                       child: TextFormField(
+                    controller: textEditingController,
                     decoration: InputDecoration(
                       suffixIcon: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            if (textEditingController.text.trim().isNotEmpty) {
+                              BlocProvider.of<PackageBloc>(context).add(
+                                  SendMessage(
+                                      id: widget.chatId,
+                                      message:
+                                          textEditingController.text.trim(),
+                                      package: widget.package!));
+                              textEditingController.clear();
+                            }
+                          },
                           child: const Icon(
                             Icons.send,
                             size: 30,

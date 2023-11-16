@@ -13,12 +13,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="sending offer to rider">
-      <change afterPath="$PROJECT_DIR$/lib/packages/chat/chat.dart" afterDir="false" />
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="fetching owner details">
+      <change afterPath="$PROJECT_DIR$/lib/packages/chat/chat_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/package.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/chat/chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/chat/chat.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/packages/package_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/package_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/repositories/package_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/package_repository.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -189,7 +190,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700057710835</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fetching owner details">
+      <created>1700117223442</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1700117223442</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -214,6 +222,7 @@
     <MESSAGE value="addede viewing active packages on the driver side" />
     <MESSAGE value="added the package details page" />
     <MESSAGE value="sending offer to rider" />
-    <option name="LAST_COMMIT_MESSAGE" value="sending offer to rider" />
+    <MESSAGE value="fetching owner details" />
+    <option name="LAST_COMMIT_MESSAGE" value="fetching owner details" />
   </component>
 </project>

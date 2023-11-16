@@ -20,5 +20,8 @@ class PackageBloc extends Bloc<InputsEvents, PackageState> {
       await packageRepository.sendOffer(type: event);
       add(SearchPackage(name: "active"));
     });
+    on<SendMessage>((event, emit) async {
+      await packageRepository.sendMessage(type: event);
+    });
   }
 }
