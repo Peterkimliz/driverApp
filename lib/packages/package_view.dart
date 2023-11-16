@@ -36,7 +36,7 @@ class PackagesView extends StatelessWidget {
         }
         if (state is LoadedState) {
           if (state.packages.isEmpty) {
-            return const Text("Hello");
+            return Center(child: const Text("No Available packages"));
           } else {
             return ListView.builder(
                 shrinkWrap: true,
@@ -167,11 +167,6 @@ class PackageContainer extends StatelessWidget {
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                   ),
-
-                  // DecorationImage(
-                  //     fit: BoxFit.cover,
-                  //     image: NetworkImage(package.image!))
-                  //,
                 ),
                 const SizedBox(
                   height: 5,
@@ -203,8 +198,10 @@ class PackageContainer extends StatelessWidget {
                   height: 5,
                 ),
                 if (package.drivers?.indexWhere((element) =>
-                        element.id == FirebaseAuth.instance.currentUser!.uid) ==
-                    -1)
+                            element.id ==
+                            FirebaseAuth.instance.currentUser!.uid) ==
+                        -1 &&
+                    package.hired == null)
                   InkWell(
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,

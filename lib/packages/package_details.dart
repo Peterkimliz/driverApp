@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:safiri/packages/bloc/package_bloc.dart';
 import 'package:safiri/packages/bloc/package_state.dart';
+import 'package:safiri/packages/chat/chat.dart';
 import 'package:safiri/packages/offer_bottom.dart';
 
 import 'package:safiri/packages/package.dart';
@@ -147,9 +148,10 @@ class PackageDetails extends StatelessWidget {
                     ),
                     Center(
                       child: package.drivers?.indexWhere((element) =>
-                                  element.id ==
-                                  FirebaseAuth.instance.currentUser!.uid) ==
-                              -1
+                                      element.id ==
+                                      FirebaseAuth.instance.currentUser!.uid) ==
+                                  -1 &&
+                              package.hired == null
                           ? InkWell(
                               onTap: () {
                                 showModalSheet(
@@ -172,10 +174,34 @@ class PackageDetails extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : SizedBox(
-                              height: 0,
-                              width: 0,
-                            ),
+                          : package.hired?.id ==
+                                  FirebaseAuth.instance.currentUser!.uid
+                              ? InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChatPage()));
+                                  },
+                                  child: Container(
+                                    width: 200,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: const Text(
+                                      "Message",
+                                      style: TextStyle(color: Colors.white),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                ),
                     )
                   ],
                 ),

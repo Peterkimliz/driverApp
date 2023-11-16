@@ -9,6 +9,8 @@ class Package {
   Destinations? startDestination;
   Destinations? endDestination;
   List<Driver>? drivers;
+  Driver? hired;
+  Driver? owner;
 
   Package(
       {this.name,
@@ -20,7 +22,9 @@ class Package {
       this.status,
       this.startDestination,
       this.endDestination,
-      this.drivers});
+      this.drivers,
+      this.hired,
+      this.owner});
 
   factory Package.fromJson(Map<String, dynamic> json) {
     return Package(
@@ -33,6 +37,8 @@ class Package {
       status: json["status"],
       startDestination: Destinations.fromJson(json["startDestination"]),
       endDestination: Destinations.fromJson(json["endDestination"]),
+      hired: json["driver"] == null ? null : Driver.fromJson(json["driver"]),
+      owner: json["owner"] == null ? null : Driver.fromJson(json["owner"]),
       drivers: json["drivers"] == null
           ? []
           : List<Driver>.from(json["drivers"].map((e) => Driver.fromJson(e))),
@@ -72,7 +78,7 @@ class Driver {
       firstName: json["firstName"],
       id: json["id"],
       lastName: json["lastName"],
-      offer: json["offer"],
+      offer: json["offer"] ?? 0,
       profile: json["profile"],
       phone: json["phone"],
     );
