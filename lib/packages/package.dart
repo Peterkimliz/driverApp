@@ -11,6 +11,8 @@ class Package {
   List<Driver>? drivers;
   Driver? hired;
   Driver? owner;
+  String? riderPlayerId;
+  String? driverPlayerId;
 
   Package(
       {this.name,
@@ -24,7 +26,9 @@ class Package {
       this.endDestination,
       this.drivers,
       this.hired,
-      this.owner});
+      this.owner,
+      this.riderPlayerId,
+      this.driverPlayerId});
 
   factory Package.fromJson(Map<String, dynamic> json) {
     return Package(
@@ -35,6 +39,8 @@ class Package {
       image: json["image"],
       paymentMethod: json["paymentMethod"],
       status: json["status"],
+      riderPlayerId: json["riderPlayerId"] ?? "",
+      driverPlayerId: json["driverPlayerId"] ?? "",
       startDestination: Destinations.fromJson(json["startDestination"]),
       endDestination: Destinations.fromJson(json["endDestination"]),
       hired: json["driver"] == null ? null : Driver.fromJson(json["driver"]),
@@ -53,6 +59,8 @@ class Package {
         "image": image,
         "paymentMethod": paymentMethod,
         "status": status,
+        "driverPlayerId": driverPlayerId,
+        "riderPlayerId": riderPlayerId,
       };
 }
 
@@ -63,25 +71,53 @@ class Driver {
   String? id;
   String? phone;
   String? profile;
+  String? carName;
+  String? carPlate;
 
-  Driver({
-    this.firstName,
-    this.id,
-    this.lastName,
-    this.phone,
-    this.offer,
-    this.profile,
-  });
+  Driver(
+      {this.firstName,
+      this.id,
+      this.lastName,
+      this.phone,
+      this.offer,
+      this.profile,
+      this.carPlate,
+      this.carName});
 
   factory Driver.fromJson(Map<String, dynamic> json) {
     return Driver(
       firstName: json["firstName"],
       id: json["id"],
       lastName: json["lastName"],
-      offer: json["offer"] ?? 0,
+      offer: json["offer"],
       profile: json["profile"],
       phone: json["phone"],
+      carPlate: json["carPlate"],
+      carName: json["carName"],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    print({
+      "firstName": firstName,
+      "lastName": lastName,
+      "offer": offer,
+      "id": id,
+      "profile": profile,
+      "carName": phone,
+      "phone": carName,
+      "carPlate": carPlate,
+    });
+    return {
+      "firstName": firstName,
+      "lastName": lastName,
+      "offer": offer,
+      "id": id,
+      "profile": profile,
+      "carName": phone,
+      "phone": carName,
+      "carPlate": carPlate,
+    };
   }
 }
 

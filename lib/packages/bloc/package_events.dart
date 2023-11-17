@@ -5,7 +5,7 @@ import '../package.dart';
 abstract class InputsEvents extends Equatable {}
 
 class SearchPackage extends InputsEvents {
-  final String name;
+  final bool name;
 
   SearchPackage({required this.name});
 

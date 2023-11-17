@@ -12,13 +12,13 @@ class PackageBloc extends Bloc<InputsEvents, PackageState> {
     on<SearchPackage>((event, emit) async {
       emit(LoadingState());
       List<Package> packages =
-          await packageRepository.getPackages(type: event.name);
+          await packageRepository.getPackages(hired: event.name);
       emit(LoadedState(packages: packages));
     });
     on<SendOffer>((event, emit) async {
       emit(LoadingState());
       await packageRepository.sendOffer(type: event);
-      add(SearchPackage(name: "active"));
+      add(SearchPackage(name: false));
     });
     on<SendMessage>((event, emit) async {
       await packageRepository.sendMessage(type: event);

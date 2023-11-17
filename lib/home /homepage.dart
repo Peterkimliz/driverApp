@@ -141,10 +141,12 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                 }
                                 return true;
                               }, listener: (context, state) {
+                                print("State of app is ${state}");
                                 if (state is StatusOnline) {
                                   refetch!();
                                 }
                               }, builder: (context, state) {
+                                print("State of app is ${state}");
                                 if (state is StatusUnregistered) {
                                   return UnregisteredDriverMessagesView(
                                       driver: state.driver, refetch: refetch);

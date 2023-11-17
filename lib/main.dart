@@ -10,6 +10,7 @@ import 'package:safiri/chat/chat_view.dart';
 import 'package:safiri/current_location_cubit.dart';
 import 'package:safiri/earnings/earnings_view.dart';
 import 'package:safiri/packages/bloc/package_bloc.dart';
+import 'package:safiri/packages/chat/chat.dart';
 import 'package:safiri/profile/profile_view.dart';
 import 'package:safiri/register/register_view.dart';
 import 'package:safiri/repositories/package_repository.dart';
@@ -55,6 +56,7 @@ void main() async {
   initOneSignal();
   runApp(const MyApp());
 }
+
 void initOneSignal() {
   OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
   OneSignal.shared.setAppId(oneSignalKey);
@@ -71,65 +73,22 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   oneSignalObservers() {
     OneSignal.shared.setNotificationWillShowInForegroundHandler(
-            (OSNotificationReceivedEvent event) {
-          // if (event.notification.additionalData!["screen"] == "ChatInbox" &&
-          //     Get.find<ChatController>().isChatPage.value == true) {
-          //   event.complete(null);
-          // } else if (event.notification.additionalData!["screen"] == "room") {
-          //   event.complete(event.notification);
-          // } else {
-          //   event.complete(event.notification);
-          //   if (event.notification.additionalData!["type"] == "offer" &&
-          //       Get.find<ChatController>().isChatPage.value == false) {
-          //     _userController.scaffoldKey.currentState
-          //         ?.showBottomSheet((context) => Container(
-          //       width: double.infinity,
-          //       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          //       height: kBottomNavigationBarHeight * 1.1,
-          //       color: blackColor,
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           CommonText(
-          //               color: whiteColor,
-          //               text:
-          //               "${event.notification.additionalData!["message"]}"),
-          //           TextButton(
-          //               onPressed: () {
-          //                 final myMap = Map<String, dynamic>.from(event
-          //                     .notification.additionalData!["userModel"]);
-          //                 Navigator.pop(context);
-          //                 Get.to(() => ChatsInbox(
-          //                     userModel: UserModel.fromJson(myMap),
-          //                     uid: event
-          //                         .notification.additionalData!["chatId"]));
-          //               },
-          //               child: const CommonText(
-          //                 text: "View",
-          //                 color: whiteColor,
-          //               ))
-          //         ],
-          //       ),
-          //     ));
-          //   }
-          // }
-        });
+        (OSNotificationReceivedEvent event) {
+      event.complete(event.notification);
+    });
 
     OneSignal.shared
         .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-      // if (result.notification.additionalData!["screen"] == "ChatInbox" &&
-      //     Get.find<ChatController>().isChatPage.value == false) {
-      //   final myMap = Map<String, dynamic>.from(
-      //       result.notification.additionalData!["userModel"]);
-      //   Get.to(() => ChatsInbox(
-      //       userModel: UserModel.fromJson(myMap),
-      //       uid: result.notification.additionalData!["chatId"]));
-      // } else if (result.notification.additionalData!["screen"] == "room") {
-      //   String roomId = result.notification.additionalData!["roomId"];
-      //   Get.to(() => Livestream(
-      //     roomId: roomId,
-      //   ));
-      // }
+      if (result.notification.additionalData!["screen"] == "chat"
+          // && Get.find<ChatController>().isChatPage.value == false
+          ) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatPage(
+                    package: result.notification.additionalData!["type"],
+                    chatId: result.notification.additionalData!["chatId"])));
+      } else if (result.notification.additionalData!["screen"] == "package") {}
     });
   }
 
@@ -138,6 +97,7 @@ class _MyAppState extends State<MyApp> {
     oneSignalObservers();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Box>(

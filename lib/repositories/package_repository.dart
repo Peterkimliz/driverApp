@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:safiri/packages/bloc/package_events.dart';
 import 'package:safiri/packages/chat/chat_model.dart';
 import 'package:safiri/packages/package.dart';
@@ -10,8 +11,16 @@ class PackageRepository {
 
   final firebaseAuth = FirebaseAuth.instance;
 
-  Future<List<Package>> getPackages({required String type}) async {
-    QuerySnapshot query = await _firebaseFirestore.get();
+  Future<List<Package>> getPackages({required bool hired}) async {
+    Query<Map<String, dynamic>> queries = _firebaseFirestore;
+    if (hired == false) {
+      queries = queries.where("hired", isEqualTo: false);
+    } else {
+      queries = queries.where("hired", isEqualTo: true).where("driver.id",
+          isEqualTo: FirebaseAuth.instance.currentUser!.uid);
+    }
+
+    QuerySnapshot query = await queries.get();
     List<Package> packages = [];
 
     if (query.docs.isNotEmpty) {
@@ -26,9 +35,9 @@ class PackageRepository {
   }
 
   sendOffer({required SendOffer type}) async {
-    print("type${type.carName}");
-    print("type${type.carPlate}");
+    var driverPlayerId = await checkUserHasPackages();
     await _firebaseFirestore.doc(type.packageId).update({
+      "driverPlayerId": driverPlayerId,
       "drivers": FieldValue.arrayUnion([
         {
           "id": type.driverId,
@@ -55,13 +64,22 @@ class PackageRepository {
       senderId: FirebaseAuth.instance.currentUser!.uid,
     );
     await _chatRef.doc(type.id).set({"users": users}).then((value) {
-      _chatRef.doc(type.id).collection("chats").add(chatModel.toJson());
+      _chatRef
+          .doc(type.id)
+          .collection("chats")
+          .add(chatModel.toJson())
+          .then((value) {
+        sendChatNotification(
+            message: type.message,
+            screen: "chat",
+            type: type.package,
+            chatid: type.id);
+      });
     });
   }
 
   Future<String> getChatIdInboxes({required user}) async {
     String chatId = "";
-    print("users are ${user}");
     await _chatRef.where("users", isEqualTo: user).get().then((value) {
       List data = value.docs;
       var index = data.indexWhere((element) =>
@@ -70,5 +88,61 @@ class PackageRepository {
     });
 
     return chatId;
+  }
+
+  updatePlayerId(String uid) async {
+    print("Updating player  iD");
+    final String? osUserID = await generateOneSignalId();
+    var collection = FirebaseFirestore.instance
+        .collection('packages')
+        .where("driver.id", isEqualTo: uid);
+    var querySnapshots = await collection.get();
+    for (var doc in querySnapshots.docs) {
+      await doc.reference.update({
+        "driverPlayerId": osUserID,
+      });
+    }
+  }
+
+  Future<String?> generateOneSignalId() async {
+    final status = await OneSignal.shared.getDeviceState();
+    return status?.userId;
+  }
+
+  Future<String?> checkUserHasPackages() async {
+    var collection = _firebaseFirestore.where("driver.id",
+        isEqualTo: firebaseAuth.currentUser!.uid);
+    var querySnapshots = await collection.get();
+    if (querySnapshots.docs.isEmpty) {
+      final status = await OneSignal.shared.getDeviceState();
+      return status?.userId;
+    } else {
+      return querySnapshots.docs[0]["riderPlayerId"];
+    }
+  }
+
+  void sendChatNotification(
+      {required String message,
+      required screen,
+      required Package type,
+      required String chatid}) async {
+    var notification = OSCreateNotification(
+      playerIds: [type.riderPlayerId!],
+      content: message,
+      androidLargeIcon: FirebaseAuth.instance.currentUser?.photoURL,
+      additionalData: {
+        "screen": screen,
+        "type": type.toJson(),
+        "message": message,
+        "chatId": chatid,
+      },
+      heading: type.owner?.firstName,
+    );
+
+    sendNotification(notification: notification);
+  }
+
+  void sendNotification({required OSCreateNotification notification}) async {
+    await OneSignal.shared.postNotification(notification);
   }
 }

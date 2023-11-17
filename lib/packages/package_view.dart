@@ -14,41 +14,117 @@ import 'bloc/package_state.dart';
 import 'offer_bottom.dart';
 import 'package.dart';
 
-class PackagesView extends StatelessWidget {
+class PackagesView extends StatefulWidget {
   const PackagesView({super.key});
 
   @override
+  State<PackagesView> createState() => _PackagesViewState();
+}
+
+class _PackagesViewState extends State<PackagesView>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = new TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    context.read<PackageBloc>().add(SearchPackage(name: "active"));
+    context.read<PackageBloc>().add(SearchPackage(name: false));
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
+
             onPressed: () {
               Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back_ios)),
         backgroundColor: Colors.white,
+        title: Text("Packages"),
       ),
-      body: BlocBuilder<PackageBloc, PackageState>(builder: (context, state) {
-        if (state is LoadingState) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (state is LoadedState) {
-          if (state.packages.isEmpty) {
-            return Center(child: const Text("No Available packages"));
-          } else {
-            return ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.packages.length,
-                itemBuilder: (context, index) {
-                  Package package = state.packages.elementAt(index);
-                  return PackageContainer(package: package);
-                });
-          }
-        }
-        return Container();
-      }),
+      body: Column(
+        children: [
+          Theme(
+              data: ThemeData(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+              ),
+              child: TabBar(
+                unselectedLabelColor: Colors.grey,
+                labelColor: Colors.black,
+                indicatorColor: Colors.green,
+                onTap: (value) {
+                  if (value == 0) {
+                    context.read<PackageBloc>().add(SearchPackage(name: false));
+                  } else {
+                    context.read<PackageBloc>().add(SearchPackage(name: true));
+                  }
+                },
+                tabs: const [
+                  Tab(
+                    text: "Active",
+                  ),
+                  Tab(
+                    text: "History",
+                  )
+                ],
+                controller: _tabController,
+                indicatorSize: TabBarIndicatorSize.tab,
+              )),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                BlocBuilder<PackageBloc, PackageState>(
+                    builder: (context, state) {
+                  if (state is LoadingState) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state is LoadedState) {
+                    if (state.packages.isEmpty) {
+                      return Center(child: const Text("No Available packages"));
+                    } else {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.packages.length,
+                          itemBuilder: (context, index) {
+                            Package package = state.packages.elementAt(index);
+                            return PackageContainer(package: package);
+                          });
+                    }
+                  }
+                  return Container();
+                }),
+                BlocBuilder<PackageBloc, PackageState>(
+                    builder: (context, state) {
+                  if (state is LoadingState) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state is LoadedState) {
+                    if (state.packages.isEmpty) {
+                      return Center(child: const Text("No Available packages"));
+                    } else {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.packages.length,
+                          itemBuilder: (context, index) {
+                            Package package = state.packages.elementAt(index);
+                            return PackageContainer(package: package);
+                          });
+                    }
+                  }
+                  return Container();
+                }),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

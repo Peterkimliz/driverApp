@@ -15,6 +15,7 @@ import 'package:safiri/register/register.graphql.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../repositories/package_repository.dart';
 import '../../utils/colors.dart';
 
 class RegisterPhoneNumberView extends StatefulWidget {
@@ -122,7 +123,6 @@ class _RegisterPhoneNumberViewState extends State<RegisterPhoneNumberView> {
                   return SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-
                         onPressed: () {
                           if (!_formKey.currentState!.validate()) {
                             return;
@@ -155,13 +155,12 @@ class _RegisterPhoneNumberViewState extends State<RegisterPhoneNumberView> {
                       showOperationErrorMessage(context, error);
                     },
                   ),
-
-
                   builder: (runMutation, result) => ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
-                          backgroundColor: AppColors.greenColor// Background color
-                      ),
+                          backgroundColor:
+                              AppColors.greenColor // Background color
+                          ),
                       onPressed: ((loginTermsAndConditionsUrl.isNotEmpty &&
                               !agreedToTerms))
                           ? null
@@ -180,41 +179,50 @@ class _RegisterPhoneNumberViewState extends State<RegisterPhoneNumberView> {
                                 widget.onCodeSent(
                                     authResult.verificationId, fullPhoneNumber);
                               } else {
-                                FirebaseAuth.instance.verifyPhoneNumber(
-                                    phoneNumber: fullPhoneNumber,
-                                    timeout: const Duration(minutes: 2),
-                                    verificationCompleted: (PhoneAuthCredential
-                                        phoneAuthCredential) async {
-                                      final UserCredential cr =
-                                          await FirebaseAuth.instance
-                                              .signInWithCredential(
-                                                  phoneAuthCredential);
-                                      final String firebaseToken =
-                                          (await cr.user!.getIdToken())!;
-                                      runMutation(Variables$Mutation$Login(
-                                          firebaseToken: firebaseToken));
-                                    },
-                                    verificationFailed:
-                                        (FirebaseAuthException error) {
-                                      widget.onLoadingStateUpdated(false);
-                                      final snackBar = SnackBar(
-                                          content: RiddyBanner(
-                                              error.message ??
-                                                  S
-                                                      .of(context)
-                                                      .message_unknown_error,
-                                              type: BannerType.error));
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                                    },
-                                    codeSent: (String verificationId,
-                                        int? forceResendingToken) {
-                                      widget.onLoadingStateUpdated(false);
-                                      widget.onCodeSent(
-                                          verificationId, fullPhoneNumber);
-                                    },
-                                    codeAutoRetrievalTimeout:
-                                        (String verificationId) {});
+                                print("Updating player  iD");
+
+                                FirebaseAuth.instance
+                                    .verifyPhoneNumber(
+                                        phoneNumber: fullPhoneNumber,
+                                        timeout: const Duration(minutes: 2),
+                                        verificationCompleted:
+                                            (PhoneAuthCredential
+                                                phoneAuthCredential) async {
+                                          final UserCredential cr =
+                                              await FirebaseAuth.instance
+                                                  .signInWithCredential(
+                                                      phoneAuthCredential);
+                                          print(
+                                              "Updating player  iD${cr.user!.uid}");
+
+                                          final String firebaseToken =
+                                              (await cr.user!.getIdToken())!;
+                                          runMutation(Variables$Mutation$Login(
+                                              firebaseToken: firebaseToken));
+                                        },
+                                        verificationFailed:
+                                            (FirebaseAuthException error) {
+                                          widget.onLoadingStateUpdated(false);
+                                          final snackBar = SnackBar(
+                                              content: RiddyBanner(
+                                                  error.message ??
+                                                      S
+                                                          .of(context)
+                                                          .message_unknown_error,
+                                                  type: BannerType.error));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        },
+                                        codeSent: (String verificationId,
+                                            int? forceResendingToken) {
+                                          widget.onLoadingStateUpdated(false);
+                                          widget.onCodeSent(
+                                              verificationId, fullPhoneNumber);
+                                        },
+                                        codeAutoRetrievalTimeout:
+                                            (String verificationId) {});
+                                //   PackageRepository().updatePlayerId(
+                                //       FirebaseAuth.instance.currentUser!.uid);
                               }
                             },
                       child: Text(S.of(context).action_continue)),
@@ -232,6 +240,7 @@ class RegistrationPhoneNumberTermsCheckbox extends StatelessWidget {
   const RegistrationPhoneNumberTermsCheckbox(
       {Key? key, required this.agreedToTerms, required this.onAgreedChanged})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(

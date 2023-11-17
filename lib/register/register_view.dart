@@ -1,6 +1,7 @@
 import 'package:client_shared/components/back_button.dart';
 import 'package:client_shared/components/query_result_view.dart';
 import 'package:client_shared/components/step_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -11,6 +12,7 @@ import 'package:safiri/register/pages/register_ride_details_view.dart';
 import 'package:safiri/register/pages/register_upload_documents_view.dart';
 import 'package:safiri/register/pages/register_verification_code_view.dart';
 import 'package:safiri/register/register.graphql.dart';
+import 'package:safiri/repositories/package_repository.dart';
 import 'package:safiri/schema.gql.dart';
 
 import '../query_result_view.dart';
@@ -76,6 +78,9 @@ class _RegisterViewState extends State<RegisterView> {
                             if (parsedData?.driver.mobileNumber != null) {
                               if (!RegisterView.allowedStatuses
                                   .contains(parsedData?.driver.status)) {
+                                PackageRepository().updatePlayerId(
+                                    FirebaseAuth.instance.currentUser!.uid);
+
                                 Navigator.pop(context);
                                 return;
                               }
@@ -88,6 +93,7 @@ class _RegisterViewState extends State<RegisterView> {
                               setState(() {
                                 activePageId = 2;
                               });
+                              print("hello there data");
                             }
                             if (pageController.initialPage != activePageId) {
                               WidgetsBinding.instance.addPostFrameCallback(
