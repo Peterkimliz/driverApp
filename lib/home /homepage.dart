@@ -1,6 +1,7 @@
 import 'package:client_shared/config.dart';
 import 'package:client_shared/map_providers.dart';
 import 'package:client_shared/theme/theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
@@ -330,21 +331,34 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                                               "Kes.200",
                                                                           context:
                                                                               context),
-                                                                      SizedBox(
+                                                                      const SizedBox(
                                                                           height:
                                                                               10),
-                                                                      bottomSheetItems(
-                                                                          title:
-                                                                              "Packages",
-                                                                          function:
-                                                                              () {
-                                                                            Navigator.push(context,
-                                                                                MaterialPageRoute(builder: (context) => PackagesView()));
-                                                                          },
-                                                                          subtitle:
-                                                                              "",
-                                                                          context:
-                                                                              context)
+                                                                      StreamBuilder(
+                                                                          stream: FirebaseFirestore
+                                                                              .instance
+                                                                              .collection("packages")
+                                                                              .where("hired", isEqualTo: false)
+                                                                              .snapshots(),
+                                                                          builder: (context, AsyncSnapshot snapshot) {
+                                                                            if (snapshot.hasData) {
+                                                                              return bottomSheetItems(
+                                                                                  title: "Packages",
+                                                                                  function: () {
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
+                                                                                  },
+                                                                                  subtitle: " ${snapshot.data!.docs.length}",
+                                                                                  context: context);
+                                                                            } else {
+                                                                              return bottomSheetItems(
+                                                                                  title: "Packages",
+                                                                                  function: () {
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
+                                                                                  },
+                                                                                  subtitle: " 0",
+                                                                                  context: context);
+                                                                            }
+                                                                          })
                                                                     ],
                                                                   ))),
                                                           const SizedBox(

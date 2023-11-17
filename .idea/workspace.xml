@@ -13,17 +13,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="yesterday changes">
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="handled the noti fications">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/home /homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /homepage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/chat/chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/chat/chat.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/packages/package.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/package_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_details.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/packages/package_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/register/pages/register_phone_number_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/register/pages/register_phone_number_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/register/register_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/register/register_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/package_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/package_repository.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700205711583</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="handled the noti fications">
+      <created>1700220751449</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1700220751449</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -243,6 +246,7 @@
     <MESSAGE value="fetching owner details" />
     <MESSAGE value="implemented the chat in the driver" />
     <MESSAGE value="yesterday changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="yesterday changes" />
+    <MESSAGE value="handled the noti fications" />
+    <option name="LAST_COMMIT_MESSAGE" value="handled the noti fications" />
   </component>
 </project>

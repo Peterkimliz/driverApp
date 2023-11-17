@@ -98,16 +98,6 @@ class Driver {
   }
 
   Map<String, dynamic> toJson() {
-    print({
-      "firstName": firstName,
-      "lastName": lastName,
-      "offer": offer,
-      "id": id,
-      "profile": profile,
-      "carName": phone,
-      "phone": carName,
-      "carPlate": carPlate,
-    });
     return {
       "firstName": firstName,
       "lastName": lastName,

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:client_shared/components/user_avatar_view.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +11,8 @@ import 'package:safiri/packages/bloc/package_events.dart';
 import 'package:safiri/packages/chat/chat_model.dart';
 import 'package:safiri/packages/package.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../config.dart';
 
 class ChatPage extends StatefulWidget {
   final Package? package;
@@ -42,35 +45,23 @@ class _ChatPageState extends State<ChatPage> {
         titleSpacing: 0.0,
         title: Row(
           children: [
-            CachedNetworkImage(
-              imageUrl:
-                  "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=800",
-              height: 40,
-              width: 40,
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                      colorFilter: const ColorFilter.mode(
-                          Colors.transparent, BlendMode.colorBurn)),
-                ),
-              ),
-              placeholder: (context, url) => Shimmer.fromColors(
-                baseColor: CustomTheme.neutralColors.shade300,
-                highlightColor: CustomTheme.neutralColors.shade100,
-                enabled: true,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: CustomTheme.neutralColors.shade300,
-                      shape: BoxShape.circle),
-                  height: 40,
-                  width: 40,
-                ),
-              ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
+            widget.package!.owner!.profile == null
+                ? Container(
+                    width: 45,
+                    height: 45,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage("images/profile.png"))),
+                  )
+                : UserAvatarView(
+                    urlPrefix: serverUrl,
+                    url: widget.package!.owner!.profile!,
+                    cornerRadius: 100,
+                    size: 40,
+                    backgroundColor: CustomTheme.primaryColors.shade300,
+                  ),
             const SizedBox(
               width: 5,
             ),

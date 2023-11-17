@@ -177,7 +177,8 @@ class PackageDetails extends StatelessWidget {
                               ),
                             )
                           : package.hired?.id ==
-                                  FirebaseAuth.instance.currentUser!.uid
+                                      FirebaseAuth.instance.currentUser!.uid &&
+                                  package.status != "completed"
                               ? InkWell(
                                   onTap: () async {
                                     String id = await getChatId(package);

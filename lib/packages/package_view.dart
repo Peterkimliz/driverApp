@@ -38,7 +38,6 @@ class _PackagesViewState extends State<PackagesView>
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-
             onPressed: () {
               Navigator.pop(context);
             },
