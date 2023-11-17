@@ -185,13 +185,6 @@ class PackageContainer extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.redAccent.withOpacity(0.7),
                             fontSize: 14)),
-                    // InkWell(
-                    //   onTap: () {},
-                    //   child: Text(
-                    //     "InProgress",
-                    //     style: TextStyle(color: Colors.amber, fontSize: 14),
-                    //   ),
-                    // ),
                   ],
                 ),
                 const SizedBox(

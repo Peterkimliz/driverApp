@@ -9,7 +9,6 @@ import 'package:safiri/packages/bloc/package_bloc.dart';
 import 'package:safiri/packages/bloc/package_events.dart';
 import 'package:safiri/packages/chat/chat_model.dart';
 import 'package:safiri/packages/package.dart';
-import 'package:safiri/repositories/package_repository.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ChatPage extends StatefulWidget {
@@ -103,11 +102,12 @@ class _ChatPageState extends State<ChatPage> {
                         return ListView.builder(
                             itemCount: snapshot.data!.docs.length,
                             shrinkWrap: true,
+                            reverse: true,
                             itemBuilder: (context, index) {
-                              // final reversedIndex =
-                              //     snapshot.data!.docs.length - 1 - index;
+                              final reversedIndex =
+                                  snapshot.data!.docs.length - 1 - index;
                               ChatModel chat = ChatModel.fromJson(
-                                  snapshot.data!.docs[index]);
+                                  snapshot.data!.docs[reversedIndex]);
                               return chat.senderId ==
                                       FirebaseAuth.instance.currentUser!.uid
                                   ? Align(

@@ -21,6 +21,8 @@ class SendOffer extends InputsEvents {
   final String driverId;
   final String driverPhoto;
   final String packageId;
+  final String carName;
+  final String carPlate;
 
   SendOffer(
       {required this.offerPrice,
@@ -29,7 +31,9 @@ class SendOffer extends InputsEvents {
       required this.driverLastName,
       required this.driverPhone,
       required this.driverPhoto,
-      required this.packageId});
+      required this.packageId,
+      required this.carName,
+      required this.carPlate});
 
   @override
   List<Object?> get props => [
@@ -39,7 +43,9 @@ class SendOffer extends InputsEvents {
         driverPhone,
         driverId,
         driverPhoto,
-        packageId
+        packageId,
+        carName,
+        carPlate
       ];
 }
 

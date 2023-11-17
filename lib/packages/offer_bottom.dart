@@ -81,14 +81,19 @@ showModalSheet(
                               });
                         } else {
                           Navigator.pop(context);
-                          BlocProvider.of<PackageBloc>(context).add(SendOffer(
+                          BlocProvider.of<PackageBloc>(context).add(
+                            SendOffer(
                               packageId: packageId,
                               offerPrice: int.parse(textEditingController.text),
                               driverId: FirebaseAuth.instance.currentUser!.uid,
                               driverFirstName: driver.firstName!,
                               driverLastName: driver.lastName!,
                               driverPhone: driver.mobileNumber,
-                              driverPhoto: driver.media!.address));
+                              driverPhoto: driver.media!.address,
+                              carName: driver.car!.name,
+                              carPlate: driver.carPlate!,
+                            ),
+                          );
                         }
                       },
                       child: Container(

@@ -26,6 +26,8 @@ class PackageRepository {
   }
 
   sendOffer({required SendOffer type}) async {
+    print("type${type.carName}");
+    print("type${type.carPlate}");
     await _firebaseFirestore.doc(type.packageId).update({
       "drivers": FieldValue.arrayUnion([
         {
@@ -34,7 +36,9 @@ class PackageRepository {
           "lastName": type.driverLastName,
           "phone": type.driverPhone,
           "profile": type.driverPhoto,
-          "offer": type.offerPrice
+          "offer": type.offerPrice,
+          "carPlate": type.carPlate,
+          "carName": type.carName,
         }
       ])
     });
