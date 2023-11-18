@@ -12834,6 +12834,9 @@ Enum$DriverWalletSortFields fromJson$Enum$DriverWalletSortFields(String value) {
 
 enum Enum$GroupBy { DAY, WEEK, MONTH, YEAR, $unknown }
 
+enum Enum$GeoProvider { GOOGLE, MAPBOX, NOMINATIM, $unknown }
+
+
 String toJson$Enum$GroupBy(Enum$GroupBy e) {
   switch (e) {
     case Enum$GroupBy.DAY:

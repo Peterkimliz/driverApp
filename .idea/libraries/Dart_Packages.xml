@@ -499,6 +499,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_dash">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_dash-1.0.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_gen_core">
           <value>
             <list>
@@ -1614,6 +1621,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_chat_types-3.6.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_chat_ui-1.6.9/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_compass-0.7.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_dash-1.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_gen_core-5.3.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_gen_runner-5.3.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_hooks-0.18.5+1/lib" />

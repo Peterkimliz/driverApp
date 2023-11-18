@@ -1,9 +1,11 @@
+import 'package:client_shared/components/list_shimmer_skeleton.dart';
 import 'package:client_shared/config.dart';
 import 'package:client_shared/map_providers.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:lifecycle/lifecycle.dart';
@@ -21,7 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:swipeable_button_view/swipeable_button_view.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../config.dart';
 
@@ -29,15 +31,30 @@ import '../main_bloc.dart';
 import '../map_providers/open_street_map_provider.dart';
 import '../order_status_card_view.dart';
 import '../orders_carousel_view.dart';
-import '../packages/package_view.dart';
 import '../query_result_view.dart';
+import '../search/order.graphql.dart';
+import 'full_location.dart';
 
-class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   Refetch? refetch;
+  String searchKeyword = "";
+  int key = 0;
+  List<FullLocation?> selectedLocations = [null, null];
+  TextEditingController textEditingControllerStart = TextEditingController();
+  TextEditingController textEditingControllerEnd = TextEditingController();
 
-  MyHomePage({Key? key}) : super(key: key) {
+  @override
+  void initState() {
     WidgetsBinding.instance.addObserver(this);
+    super.initState();
   }
 
   @override
@@ -47,19 +64,6 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
     final locationCubit = context.read<CurrentLocationCubit>();
     return Scaffold(
         key: scaffoldKey,
-        // drawer: ClipRRect(
-        //   borderRadius: BorderRadius.circular(10),
-        //   child: Drawer(
-        //     backgroundColor: CustomTheme.primaryColors.shade100,
-        //     child: BlocBuilder<MainBloc, MainState>(
-        //       builder: (context, state) {
-        //         return DrawerView(
-        //           driver: state.driver,
-        //         );
-        //       },
-        //     ),
-        //   ),
-        // ),
         body: ValueListenableBuilder(
             valueListenable: Hive.box('user').listenable(),
             builder: (context, Box box, widget) {
@@ -345,7 +349,8 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                                               return bottomSheetItems(
                                                                                   title: "Packages",
                                                                                   function: () {
-                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
+                                                                                    showLocationBottomSheet(context);
+                                                                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
                                                                                   },
                                                                                   subtitle: " ${snapshot.data!.docs.length}",
                                                                                   context: context);
@@ -353,7 +358,8 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                                               return bottomSheetItems(
                                                                                   title: "Packages",
                                                                                   function: () {
-                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
+                                                                                    showLocationBottomSheet(context);
+                                                                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
                                                                                   },
                                                                                   subtitle: " 0",
                                                                                   context: context);
@@ -481,36 +487,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                               ),
                             ),
                           ),
-                        )
-
-                        // SwipeButton.expand(
-                        //     elevationThumb: 0,
-                        //     elevationTrack: 0,
-                        //     borderRadius: BorderRadius.circular(0),
-                        //     thumb: const Icon(
-                        //       Icons.double_arrow_rounded,
-                        //       color: Colors.white,
-                        //     ),
-                        //     child: const Text(
-                        //       "Go Online",
-                        //       style: TextStyle(
-                        //         color: Colors.white,
-                        //       ),
-                        //     ),
-                        //     activeThumbColor: Colors.transparent,
-                        //     activeTrackColor: Colors.green,
-                        //     onSwipe:(){
-                        //       (result?.isLoading ?? false)
-                        //           ? null
-                        //           : () async {
-                        //         final fcmId = await getFcmId(context);
-                        //         runMutation(
-                        //             Variables$Mutation$UpdateDriverStatus(
-                        //                 status: Enum$DriverStatus.Online,
-                        //                 fcmId: fcmId));
-                        //       };
-                        //     })
-                        )
+                        ))
                     : ((state is StatusOnline)
                         ? SizedBox(
                             height: 100,
@@ -692,5 +669,247 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
     final fcmId = await getFcmId(context);
     await client.mutate(Options$Mutation$UpdateDriverFCMId(
         variables: Variables$Mutation$UpdateDriverFCMId(fcmId: fcmId)));
+  }
+
+  showLocationBottomSheet(context) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        )),
+        context: context,
+        builder: (_) {
+          return Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15).copyWith(top: 20),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    textEditingControllerStart.clear();
+                    textEditingControllerEnd.clear();
+                  },
+                  child: const Icon(
+                    Icons.clear_rounded,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: CustomTheme.neutralColors.shade200,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.navigation_sharp,
+                            color: Colors.grey,
+                            size: 35,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 15.0),
+                            child: Dash(
+                                direction: Axis.vertical,
+                                length: 20,
+                                dashLength: 2,
+                                dashColor: Colors.grey),
+                          ),
+                          Icon(
+                            Icons.location_on_sharp,
+                            color: Colors.grey,
+                            size: 35,
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: textEditingControllerStart,
+                              onChanged: (value) {
+                                if (value.trim().length >= 3) {
+                                  setState(() {
+                                    searchKeyword = value;
+                                    key = 0;
+                                  });
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                  hintText: "Start Location",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none),
+                            ),
+                            const Divider(),
+                            TextFormField(
+                              controller: textEditingControllerEnd,
+                              onChanged: (value) {
+                                if (value.trim().length >= 3) {
+                                  setState(() {
+                                    searchKeyword = value;
+                                    key = 1;
+                                  });
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                  hintText: "Destination Location",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                // if (searchKeyword.length > 3)
+                //   Query$getPlaces$Widget(
+                //       options: Options$Query$getPlaces(
+                //         variables: Variables$Query$getPlaces(
+                //             keyWord: searchKeyword,
+                //             point: null,
+                //             language: "en",
+                //             radius: 100000,
+                //             provider: getMapProviders()),
+                //         onError: (error) {},
+                //       ),
+                //       builder: (result, {refetch, fetchMore}) {
+                //         if (result.isLoading) {
+                //           return Padding(
+                //             padding: const EdgeInsets.symmetric(horizontal: 16),
+                //             child: Shimmer.fromColors(
+                //               baseColor: CustomTheme.neutralColors.shade300,
+                //               highlightColor:
+                //                   CustomTheme.neutralColors.shade100,
+                //               enabled: true,
+                //               child: const ListShimmerSkeleton(),
+                //             ),
+                //           );
+                //         }
+                //         if (result.parsedData == null) {
+                //           return const SizedBox();
+                //         } else {
+                //           return Expanded(
+                //             child: ListView.builder(
+                //                 itemCount: result.parsedData!.getPlaces.length,
+                //                 itemBuilder: ((context, index) {
+                //                   FullLocation fullLocation = result
+                //                       .parsedData!.getPlaces[index]
+                //                       .toFullLocation();
+                //                   return InkWell(
+                //                     splashColor: Colors.transparent,
+                //                     highlightColor: Colors.transparent,
+                //                     onTap: () {
+                //                       if (key == 0) {
+                //                         textEditingControllerStart.text =
+                //                             fullLocation.address;
+                //                       } else {
+                //                         textEditingControllerEnd.text =
+                //                             fullLocation.address;
+                //                       }
+                //                       setState(() {
+                //                         selectedLocations[key] = fullLocation;
+                //                       });
+                //                       if (selectedLocations[0] != null &&
+                //                           selectedLocations[1] != null) {
+                //                         Navigator.pop(context);
+                //                         textEditingControllerStart.clear();
+                //                         textEditingControllerEnd.clear();
+                //                       }
+                //                     },
+                //                     child: Column(
+                //                       children: [
+                //                         Padding(
+                //                           padding: const EdgeInsets.symmetric(
+                //                               horizontal: 16, vertical: 8),
+                //                           child: Row(
+                //                             crossAxisAlignment:
+                //                                 CrossAxisAlignment.start,
+                //                             children: [
+                //                               Icon(
+                //                                 Icons.location_on_sharp,
+                //                                 color: CustomTheme
+                //                                     .neutralColors.shade400,
+                //                               ),
+                //                               const SizedBox(width: 16),
+                //                               Expanded(
+                //                                 child: Column(
+                //                                   crossAxisAlignment:
+                //                                       CrossAxisAlignment.start,
+                //                                   children: [
+                //                                     Text(
+                //                                       fullLocation.title,
+                //                                       style: Theme.of(context)
+                //                                           .textTheme
+                //                                           .titleMedium,
+                //                                     ),
+                //                                     const SizedBox(height: 4),
+                //                                     Text(
+                //                                       fullLocation.address,
+                //                                       overflow:
+                //                                           TextOverflow.fade,
+                //                                       style: Theme.of(context)
+                //                                           .textTheme
+                //                                           .labelMedium,
+                //                                     )
+                //                                   ],
+                //                                 ),
+                //                               )
+                //                             ],
+                //                           ),
+                //                         ),
+                //                         const Divider()
+                //                       ],
+                //                     ),
+                //                   );
+                //                 })),
+                //           );
+                //         }
+                //       })
+              ],
+            ),
+          );
+        }).whenComplete(() {
+      setState(() {
+        searchKeyword = "";
+      });
+      print("Completed");
+    });
+  }
+
+  Enum$GeoProvider getMapProviders() {
+    var settings = Hive.box('settings').get('mapProvider');
+    var provder = mapProvider;
+    if (settings == 'googlemap') {
+      provder = MapProvider.googleMap;
+    } else if (settings == 'mapbox') {
+      provder = MapProvider.mapBox;
+    } else if (settings == 'openstreet') {
+      provder = MapProvider.openStreetMap;
+    }
+    return provder == MapProvider.googleMap
+        ? Enum$GeoProvider.GOOGLE
+        : (provder == MapProvider.mapBox
+            ? Enum$GeoProvider.MAPBOX
+            : Enum$GeoProvider.NOMINATIM);
   }
 }
