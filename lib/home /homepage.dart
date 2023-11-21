@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dash/flutter_dash.dart';
+import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:lifecycle/lifecycle.dart';
@@ -14,6 +15,7 @@ import 'package:safiri/current_location_cubit.dart';
 import 'package:safiri/main.graphql.dart';
 import 'package:safiri/map_providers/google_map_provider.dart';
 import 'package:safiri/notice_bar.dart';
+import 'package:safiri/packages/package_view.dart';
 import 'package:safiri/schema.gql.dart';
 import 'package:safiri/unregistered_driver_messages_view.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
@@ -32,8 +34,9 @@ import '../map_providers/open_street_map_provider.dart';
 import '../order_status_card_view.dart';
 import '../orders_carousel_view.dart';
 import '../query_result_view.dart';
-import '../search/order.graphql.dart';
-import 'full_location.dart';
+import 'bloc/bloc.dart';
+import 'bloc/event.dart';
+import 'bloc/state.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -45,9 +48,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   Refetch? refetch;
-  String searchKeyword = "";
+
   int key = 0;
-  List<FullLocation?> selectedLocations = [null, null];
+  PlacesSearchResult? startLocation = null;
+  PlacesSearchResult? endLocation = null;
   TextEditingController textEditingControllerStart = TextEditingController();
   TextEditingController textEditingControllerEnd = TextEditingController();
 
@@ -590,7 +594,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   Widget _getWalletButton(BuildContext context, MainState state) {
     return Container(
-      decoration: const BoxDecoration(boxShadow: [
+      decoration: BoxDecoration(boxShadow: [
         BoxShadow(
             color: Color(0x14000000), offset: Offset(0, 3), blurRadius: 15)
       ]),
@@ -744,9 +748,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                               onChanged: (value) {
                                 if (value.trim().length >= 3) {
                                   setState(() {
-                                    searchKeyword = value;
                                     key = 0;
                                   });
+                                  BlocProvider.of<LocationBloc>(context)
+                                      .add(SearchLocationName(name: value));
                                 }
                               },
                               decoration: const InputDecoration(
@@ -762,9 +767,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                               onChanged: (value) {
                                 if (value.trim().length >= 3) {
                                   setState(() {
-                                    searchKeyword = value;
                                     key = 1;
                                   });
+                                  BlocProvider.of<LocationBloc>(context)
+                                      .add(SearchLocationName(name: value));
                                 }
                               },
                               decoration: const InputDecoration(
@@ -781,123 +787,122 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                   ),
                 ),
                 const SizedBox(height: 10),
-                // if (searchKeyword.length > 3)
-                //   Query$getPlaces$Widget(
-                //       options: Options$Query$getPlaces(
-                //         variables: Variables$Query$getPlaces(
-                //             keyWord: searchKeyword,
-                //             point: null,
-                //             language: "en",
-                //             radius: 100000,
-                //             provider: getMapProviders()),
-                //         onError: (error) {},
-                //       ),
-                //       builder: (result, {refetch, fetchMore}) {
-                //         if (result.isLoading) {
-                //           return Padding(
-                //             padding: const EdgeInsets.symmetric(horizontal: 16),
-                //             child: Shimmer.fromColors(
-                //               baseColor: CustomTheme.neutralColors.shade300,
-                //               highlightColor:
-                //                   CustomTheme.neutralColors.shade100,
-                //               enabled: true,
-                //               child: const ListShimmerSkeleton(),
-                //             ),
-                //           );
-                //         }
-                //         if (result.parsedData == null) {
-                //           return const SizedBox();
-                //         } else {
-                //           return Expanded(
-                //             child: ListView.builder(
-                //                 itemCount: result.parsedData!.getPlaces.length,
-                //                 itemBuilder: ((context, index) {
-                //                   FullLocation fullLocation = result
-                //                       .parsedData!.getPlaces[index]
-                //                       .toFullLocation();
-                //                   return InkWell(
-                //                     splashColor: Colors.transparent,
-                //                     highlightColor: Colors.transparent,
-                //                     onTap: () {
-                //                       if (key == 0) {
-                //                         textEditingControllerStart.text =
-                //                             fullLocation.address;
-                //                       } else {
-                //                         textEditingControllerEnd.text =
-                //                             fullLocation.address;
-                //                       }
-                //                       setState(() {
-                //                         selectedLocations[key] = fullLocation;
-                //                       });
-                //                       if (selectedLocations[0] != null &&
-                //                           selectedLocations[1] != null) {
-                //                         Navigator.pop(context);
-                //                         textEditingControllerStart.clear();
-                //                         textEditingControllerEnd.clear();
-                //                       }
-                //                     },
-                //                     child: Column(
-                //                       children: [
-                //                         Padding(
-                //                           padding: const EdgeInsets.symmetric(
-                //                               horizontal: 16, vertical: 8),
-                //                           child: Row(
-                //                             crossAxisAlignment:
-                //                                 CrossAxisAlignment.start,
-                //                             children: [
-                //                               Icon(
-                //                                 Icons.location_on_sharp,
-                //                                 color: CustomTheme
-                //                                     .neutralColors.shade400,
-                //                               ),
-                //                               const SizedBox(width: 16),
-                //                               Expanded(
-                //                                 child: Column(
-                //                                   crossAxisAlignment:
-                //                                       CrossAxisAlignment.start,
-                //                                   children: [
-                //                                     Text(
-                //                                       fullLocation.title,
-                //                                       style: Theme.of(context)
-                //                                           .textTheme
-                //                                           .titleMedium,
-                //                                     ),
-                //                                     const SizedBox(height: 4),
-                //                                     Text(
-                //                                       fullLocation.address,
-                //                                       overflow:
-                //                                           TextOverflow.fade,
-                //                                       style: Theme.of(context)
-                //                                           .textTheme
-                //                                           .labelMedium,
-                //                                     )
-                //                                   ],
-                //                                 ),
-                //                               )
-                //                             ],
-                //                           ),
-                //                         ),
-                //                         const Divider()
-                //                       ],
-                //                     ),
-                //                   );
-                //                 })),
-                //           );
-                //         }
-                //       })
+                Expanded(
+                  child: BlocBuilder<LocationBloc, LocationSearchState>(
+                    builder: (context, state) {
+                      if (state is Loading) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Shimmer.fromColors(
+                            baseColor: CustomTheme.neutralColors.shade300,
+                            highlightColor: CustomTheme.neutralColors.shade100,
+                            enabled: true,
+                            child: const ListShimmerSkeleton(),
+                          ),
+                        );
+                      }
+                      if (state is LoadedState) {
+                        return Container(
+                          height: 400,
+                          child: ListView.builder(
+                              itemCount: state.results.length,
+                              itemBuilder: ((context, index) {
+                                PlacesSearchResult place =
+                                    state.results.elementAt(index);
+                                return InkWell(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () {
+                                    if (key == 0) {
+                                      textEditingControllerStart.text =
+                                          place.formattedAddress!;
+                                      setState(() {
+                                        startLocation = place;
+                                      });
+                                    } else {
+                                      textEditingControllerEnd.text =
+                                          place.formattedAddress!;
+                                      setState(() {
+                                        endLocation = place;
+                                      });
+                                    }
+                                    if (startLocation != null &&
+                                        endLocation != null) {
+                                      Navigator.pop(context);
+                                      textEditingControllerStart.clear();
+                                      textEditingControllerEnd.clear();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PackagesView(
+                                                      selectedLocations: [
+                                                        startLocation!,
+                                                        endLocation!
+                                                      ])));
+                                    }
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 8),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Icon(
+                                              Icons.location_on_sharp,
+                                              color: CustomTheme
+                                                  .neutralColors.shade400,
+                                            ),
+                                            const SizedBox(width: 16),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    place.name,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleMedium,
+                                                  ),
+                                                  const SizedBox(height: 4),
+                                                  Text(
+                                                    place.formattedAddress!,
+                                                    overflow: TextOverflow.fade,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelMedium,
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      const Divider()
+                                    ],
+                                  ),
+                                );
+                              })),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                )
               ],
             ),
           );
-        }).whenComplete(() {
-      setState(() {
-        searchKeyword = "";
-      });
-      print("Completed");
-    });
+        });
   }
 
   Enum$GeoProvider getMapProviders() {
     var settings = Hive.box('settings').get('mapProvider');
+    print("settings are $settings");
     var provder = mapProvider;
     if (settings == 'googlemap') {
       provder = MapProvider.googleMap;
@@ -906,6 +911,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     } else if (settings == 'openstreet') {
       provder = MapProvider.openStreetMap;
     }
+    print(
+        "map provider is ${provder == MapProvider.googleMap ? Enum$GeoProvider.GOOGLE : (provder == MapProvider.mapBox ? Enum$GeoProvider.MAPBOX : Enum$GeoProvider.NOMINATIM)}");
     return provder == MapProvider.googleMap
         ? Enum$GeoProvider.GOOGLE
         : (provder == MapProvider.mapBox

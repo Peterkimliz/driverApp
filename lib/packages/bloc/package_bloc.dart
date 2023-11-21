@@ -11,8 +11,8 @@ class PackageBloc extends Bloc<InputsEvents, PackageState> {
   PackageBloc({required this.packageRepository}) : super(InitialState()) {
     on<SearchPackage>((event, emit) async {
       emit(LoadingState());
-      List<Package> packages =
-          await packageRepository.getPackages(hired: event.name);
+      List<Package> packages = await packageRepository.getPackages(
+          hired: event.name, location: event.selectedLocations!);
       emit(LoadedState(packages: packages));
     });
     on<SendOffer>((event, emit) async {

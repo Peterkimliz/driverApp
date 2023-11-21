@@ -17,7 +17,7 @@ class LoadingState extends PackageState {
 }
 
 class LoadedState extends PackageState {
-  final List<Package> packages;
+   List<Package> packages;
 
   LoadedState({required this.packages});
 

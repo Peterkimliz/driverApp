@@ -9,6 +9,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:safiri/chat/chat_view.dart';
 import 'package:safiri/current_location_cubit.dart';
 import 'package:safiri/earnings/earnings_view.dart';
+import 'package:safiri/home%20/bloc/bloc.dart';
 import 'package:safiri/packages/bloc/package_bloc.dart';
 import 'package:safiri/packages/chat/chat.dart';
 import 'package:safiri/profile/profile_view.dart';
@@ -107,6 +108,8 @@ class _MyAppState extends State<MyApp> {
           providers: [
             BlocProvider<MainBloc>(
                 lazy: false, create: (context) => MainBloc()),
+            BlocProvider<LocationBloc>(
+                lazy: false, create: (context) => LocationBloc()),
             BlocProvider<CurrentLocationCubit>(
                 lazy: false, create: (context) => CurrentLocationCubit()),
             BlocProvider<PackageBloc>(

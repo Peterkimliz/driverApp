@@ -13497,3 +13497,29 @@ Enum$__DirectiveLocation fromJson$Enum$__DirectiveLocation(String value) {
 }
 
 const possibleTypesMap = <String, Set<String>>{};
+
+
+Enum$GeoProvider fromJson$Enum$GeoProvider(String value) {
+  switch (value) {
+    case r'GOOGLE':
+      return Enum$GeoProvider.GOOGLE;
+    case r'MAPBOX':
+      return Enum$GeoProvider.MAPBOX;
+    case r'NOMINATIM':
+      return Enum$GeoProvider.NOMINATIM;
+    default:
+      return Enum$GeoProvider.$unknown;
+  }
+}
+String toJson$Enum$GeoProvider(Enum$GeoProvider e) {
+  switch (e) {
+    case Enum$GeoProvider.GOOGLE:
+      return r'GOOGLE';
+    case Enum$GeoProvider.MAPBOX:
+      return r'MAPBOX';
+    case Enum$GeoProvider.NOMINATIM:
+      return r'NOMINATIM';
+    case Enum$GeoProvider.$unknown:
+      return r'$unknown';
+  }
+}

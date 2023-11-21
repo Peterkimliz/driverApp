@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_google_maps_webservices/src/places.dart';
 
 import '../package.dart';
 
@@ -6,11 +7,12 @@ abstract class InputsEvents extends Equatable {}
 
 class SearchPackage extends InputsEvents {
   final bool name;
+  final List<PlacesSearchResult>? selectedLocations;
 
-  SearchPackage({required this.name});
+  SearchPackage({required this.name, this.selectedLocations});
 
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [name, selectedLocations];
 }
 
 class SendOffer extends InputsEvents {

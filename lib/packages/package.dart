@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Package {
   String? name;
   String? description;
@@ -114,30 +116,16 @@ class Driver {
 class Destinations {
   String? title;
   String? address;
-  Location? latlng;
+  GeoPoint? latlng;
 
   Destinations({this.latlng, this.address, this.title});
 
   factory Destinations.fromJson(Map<String, dynamic> json) => Destinations(
         title: json["title"],
         address: json["address"],
-        latlng: Location.fromJson(json["latlng"]),
+        latlng: json["latlng"],
       );
 
   Map<String, dynamic> toJson() =>
-      {"title": title, "address": address, "latlng": latlng!.toJson()};
-}
-
-class Location {
-  String? title;
-  List<double>? coordinates;
-
-  Location({this.coordinates, this.title});
-
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        title: json["title"],
-        coordinates: List<double>.from(json["coordinates"].map((e) => e)),
-      );
-
-  Map<String, dynamic> toJson() => {"title": title, "coordinates": coordinates};
+      {"title": title, "address": address, "latlng": latlng};
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_google_maps_webservices/src/places.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:safiri/packages/bloc/package_events.dart';
 import 'package:safiri/packages/chat/chat_model.dart';
@@ -9,29 +10,50 @@ class PackageRepository {
   final _firebaseFirestore = FirebaseFirestore.instance.collection("packages");
   final _chatRef = FirebaseFirestore.instance.collection("chats");
 
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   final firebaseAuth = FirebaseAuth.instance;
 
-  Future<List<Package>> getPackages({required bool hired}) async {
-    Query<Map<String, dynamic>> queries = _firebaseFirestore;
-    if (hired == false) {
-      queries = queries.where("hired", isEqualTo: false);
-    } else {
-      queries = queries.where("hired", isEqualTo: true).where("driver.id",
-          isEqualTo: FirebaseAuth.instance.currentUser!.uid);
-    }
+  Future<List<Package>> getPackages(
+      {required bool hired, List<PlacesSearchResult>? location}) async {
+    try {
+      Query<Map<String, dynamic>> queries = _firebaseFirestore;
 
-    QuerySnapshot query = await queries.get();
-    List<Package> packages = [];
+      // if (hired == false) {
+      //   queries = queries.where("hired", isEqualTo: false);
+      // } else if (hired == true) {
+      //   queries = queries.where("hired", isEqualTo: true).where("driver.id",
+      //       isEqualTo: FirebaseAuth.instance.currentUser!.uid);
+      // } else
 
-    if (query.docs.isNotEmpty) {
-      for (var element in query.docs) {
-        print("Elements are ${element}");
-        Package package =
-            Package.fromJson(element.data() as Map<String, dynamic>);
-        packages.add(package);
+      // if (location!.isNotEmpty) {
+      //   print(
+      //       "Location is ${GeoPoint(location[1].geometry!.location.lat, location[1].geometry!.location.lng)}");
+      //
+      //   queries = queries
+      //       .where("start",
+      //           isEqualTo: GeoPoint(location[0].geometry!.location.lat,
+      //               location[0].geometry!.location.lng))
+      //       .where("end",
+      //           isLessThanOrEqualTo: GeoPoint(
+      //               location[1].geometry!.location.lat,
+      //               location[1].geometry!.location.lng));
+      // }
+      QuerySnapshot query = await queries.get();
+      List<Package> packages = [];
+      if (query.docs.isNotEmpty) {
+        for (var element in query.docs) {
+          print("Elements are ${element}");
+          Package package =
+              Package.fromJson(element.data() as Map<String, dynamic>);
+          packages.add(package);
+        }
       }
+      print("package length is ${packages.length}");
+      return packages;
+    } catch (e) {
+      return [];
     }
-    return packages;
   }
 
   sendOffer({required SendOffer type}) async {
