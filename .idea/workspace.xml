@@ -13,15 +13,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="driver app changes">
-      <change afterPath="$PROJECT_DIR$/images/marker_image.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="adding markers and on click of the markers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/home /bloc/bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /bloc/bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/home /bloc/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /bloc/event.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/home /homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /homepage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/package_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_details.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/packages/package_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,7 +233,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700316538565</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="adding markers and on click of the markers">
+      <created>1700658230473</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1700658230473</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -267,14 +271,15 @@
     <MESSAGE value="handled the noti fications" />
     <MESSAGE value="changed the profile for chat" />
     <MESSAGE value="driver app changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="driver app changes" />
+    <MESSAGE value="adding markers and on click of the markers" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding markers and on click of the markers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/lib/packages/package_view.dart</url>
-          <line>334</line>
+          <line>333</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

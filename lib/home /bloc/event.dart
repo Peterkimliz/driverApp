@@ -11,3 +11,9 @@ class SearchLocationName extends LocationSearchEvents {
   // TODO: implement props
   List<Object?> get props => [name];
 }
+
+class SearchClear extends LocationSearchEvents {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}

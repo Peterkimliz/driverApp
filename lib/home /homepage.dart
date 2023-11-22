@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:client_shared/components/list_shimmer_skeleton.dart';
 import 'package:client_shared/config.dart';
 import 'package:client_shared/map_providers.dart';
@@ -363,6 +365,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                                                                   title: "Packages",
                                                                                   function: () {
                                                                                     showLocationBottomSheet(context);
+
                                                                                     // Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
                                                                                   },
                                                                                   subtitle: " 0",
@@ -840,9 +843,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                                       ])));
                                       textEditingControllerStart.clear();
                                       textEditingControllerEnd.clear();
-
-                                      // startLocation = null;
-                                      // endLocation = null;
+                                      Timer(Duration(milliseconds: 4000), () {
+                                        startLocation = null;
+                                        endLocation = null;
+                                      });
                                     }
                                   },
                                   child: Column(
@@ -900,7 +904,9 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               ],
             ),
           );
-        });
+        }).whenComplete(() {
+      BlocProvider.of<LocationBloc>(context).add(SearchClear());
+    });
   }
 
   Enum$GeoProvider getMapProviders() {

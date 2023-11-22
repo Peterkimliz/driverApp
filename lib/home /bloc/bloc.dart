@@ -1,8 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_google_maps_webservices/geocoding.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:safiri/home%20/bloc/state.dart';
-import 'package:safiri/utils/constants.dart';
 
 import 'event.dart';
 
@@ -17,6 +15,9 @@ class LocationBloc extends Bloc<LocationSearchEvents, LocationSearchState> {
         emit(LoadedState(results: response.results));
       }
     });
+    on<SearchClear>((event, emit) async {
+      emit(LoadedState(results: []));
+    });
   }
 
   searchLocation({required String name}) async {
@@ -24,7 +25,7 @@ class LocationBloc extends Bloc<LocationSearchEvents, LocationSearchState> {
       final places =
           GoogleMapsPlaces(apiKey: "AIzaSyAhhiH3PrL9td9IGJWfpK3CXnU3gtsIYHY");
       PlacesSearchResponse response = await places.searchByText(name);
-      print("Seached place is ${response.results}");
+
       return response;
     } catch (e) {
       print("error is ${e}");
