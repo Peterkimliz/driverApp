@@ -15,6 +15,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
 import 'package:safiri/packages/package_details.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 
@@ -36,7 +37,16 @@ class PackagesView extends StatefulWidget {
 class _PackagesViewState extends State<PackagesView> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
-   late Uint8List icon;
+  BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
+  List<Package> addedPackages = [];
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final ScrollOffsetController scrollOffsetController =
+      ScrollOffsetController();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
+  final ScrollOffsetListener scrollOffsetListener =
+      ScrollOffsetListener.create();
+
   @override
   void initState() {
     geo.Geolocator.getLastKnownPosition().then((value) async {
@@ -49,8 +59,7 @@ class _PackagesViewState extends State<PackagesView> {
       );
     });
     super.initState();
-    iconData();
-
+    addCustomIcon();
   }
 
   @override
@@ -70,36 +79,56 @@ class _PackagesViewState extends State<PackagesView> {
       ),
       body: Stack(
         children: [
-          BlocBuilder<PackageBloc, PackageState>(builder: (context, state) {
-            return GoogleMap(
-              zoomGesturesEnabled: true,
-              zoomControlsEnabled: false,
-              mapType: MapType.normal,
-              markers: (state is LoadedState && (state.packages.isNotEmpty))
-                  ? state.packages
-                      .map((e) => Marker(
-                          infoWindow: InfoWindow(
-                            title: e.name,
-                          ),
-                          markerId: MarkerId(e.id!),
-                          icon: BitmapDescriptor.fromBytes(icon),
-                          position: LatLng(e.startDestination!.latlng!.latitude,
-                              e.startDestination!.latlng!.longitude)))
-                      .toSet()
-                  : <Marker>{},
-              // polylines: userController.polyline,
-              myLocationEnabled: true,
-              padding: const EdgeInsets.only(top: 300.0),
-              initialCameraPosition: CameraPosition(
-                target: LatLng(
-                    fallbackLocation.latitude, fallbackLocation.longitude),
-                zoom: 14.4746,
-              ),
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-            );
-          }),
+          BlocConsumer<PackageBloc, PackageState>(
+            builder: (context, state) {
+              return GoogleMap(
+                zoomGesturesEnabled: true,
+                zoomControlsEnabled: false,
+                mapType: MapType.normal,
+                markers: (state is LoadedState && (state.packages.isNotEmpty))
+                    ? state.packages
+                        .map((e) => Marker(
+                            onTap: () {
+                              var index = addedPackages
+                                  .indexWhere((element) => element.id == e.id);
+                              itemScrollController.scrollTo(
+                                  index: index,
+                                  duration: Duration(seconds: 2),
+                                  curve: Curves.easeInOutCubic);
+                            },
+                            infoWindow: InfoWindow(
+                              title: e.name,
+                            ),
+                            markerId: MarkerId(e.id!),
+                            icon: markerIcon,
+                            position: LatLng(
+                                e.startDestination!.latlng!.latitude,
+                                e.startDestination!.latlng!.longitude)))
+                        .toSet()
+                    : <Marker>{},
+                // polylines: userController.polyline,
+                myLocationEnabled: true,
+                padding: const EdgeInsets.only(top: 300.0),
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(
+                      fallbackLocation.latitude, fallbackLocation.longitude),
+                  zoom: 14.4746,
+                ),
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+              );
+            },
+            listener: (BuildContext context, Object? state) {
+              if (state is LoadedState) {
+                if (addedPackages.isEmpty) {
+                  setState(() {
+                    addedPackages.addAll(state.packages);
+                  });
+                }
+              }
+            },
+          ),
           Positioned(
             left: 0,
             top: 0,
@@ -160,20 +189,146 @@ class _PackagesViewState extends State<PackagesView> {
               ),
             ),
           ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+                height: 150,
+                margin: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                width: MediaQuery.of(context).size.width,
+                child: addedPackages.isNotEmpty
+                    ? ScrollablePositionedList.builder(
+                        itemScrollController: itemScrollController,
+                        scrollOffsetController: scrollOffsetController,
+                        itemPositionsListener: itemPositionsListener,
+                        scrollOffsetListener: scrollOffsetListener,
+                        itemCount: addedPackages.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          Package package = addedPackages.elementAt(index);
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PackageDetails(package: package)));
+                            },
+                            child: Container(
+                              height: 150,
+                              margin: const EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 150,
+                                    width: 150,
+                                    margin: const EdgeInsets.only(right: 8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: package.image!.isEmpty
+                                        ? Icon(
+                                            Icons
+                                                .photo_size_select_actual_outlined,
+                                            color: Colors.grey,
+                                            size: 150,
+                                          )
+                                        : CachedNetworkImage(
+                                            imageUrl: package.image!,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            placeholder: (context, url) =>
+                                                Shimmer.fromColors(
+                                              baseColor: CustomTheme
+                                                  .neutralColors.shade300,
+                                              highlightColor: CustomTheme
+                                                  .neutralColors.shade100,
+                                              enabled: true,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: CustomTheme
+                                                        .neutralColors.shade300,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                height: 150,
+                                                width: 150,
+                                              ),
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          "${toBeginningOfSentenceCase(package.name!)}",
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold)),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        "${toBeginningOfSentenceCase(package.description!)}",
+                                        style: const TextStyle(
+                                            color: Colors.grey, fontSize: 12),
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        "Posted by:${toBeginningOfSentenceCase(package.owner!.firstName!)}",
+                                        style: const TextStyle(
+                                            color: Colors.black, fontSize: 14),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        })
+                    : Container(
+                        height: 0,
+                        width: 0,
+                      )),
+          )
         ],
       ),
     );
   }
 
-  iconData() async {
-    final Uint8List? icond = await MarkersWithLabel.getBytesFromCanvasDynamic(
-        iconPath: 'images/logo.png',
-        plateReg: 'jhu',
-        fontSize: 50.0,
-        iconSize: Size(100.0, 1000.0));
-    setState(() {
-      icon =icond!;
-    });
+  void addCustomIcon() {
+    BitmapDescriptor.fromAssetImage(
+            const ImageConfiguration(size: Size(20.0, 20.0)),
+            "images/marker_image.png")
+        .then(
+      (icon) {
+        setState(() {
+          markerIcon = icon;
+        });
+      },
+    );
   }
 }
 
@@ -353,101 +508,5 @@ class PackageContainer extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class MarkersWithLabel {
-  static Future<Uint8List?> getBytesFromCanvasDynamic(
-      {required String iconPath,
-      required String plateReg,
-      required double fontSize,
-      required Size iconSize}) async {
-    final Paint paint = Paint()
-      ..color = const Color.fromARGB(255, 240, 200, 50);
-    final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(pictureRecorder);
-
-    //The label code
-    TextSpan span = TextSpan(
-      style: TextStyle(
-        fontSize: fontSize,
-        color: Colors.black,
-        letterSpacing: 1.0,
-      ),
-      text: plateReg.length > 15 ? plateReg.substring(0, 15) + '...' : plateReg,
-    );
-
-    TextPainter painter = TextPainter(
-        text: span,
-        textAlign: TextAlign.center,
-        textDirection: ui.TextDirection.ltr);
-    painter.text = TextSpan(
-        text:
-            plateReg.length > 15 ? plateReg.substring(0, 15) + '...' : plateReg,
-        style: TextStyle(
-            fontSize: fontSize,
-            letterSpacing: 2,
-            color: Colors.black,
-            fontWeight: FontWeight.w600));
-
-    painter.layout(
-      minWidth: 0,
-    );
-    int halfTextHeight = painter.height ~/ 2;
-    double fortyPercentWidth = painter.width * 0.20;
-    int textWidth = painter.width.toInt() + fortyPercentWidth.toInt();
-    int textHeight = painter.height.toInt() + halfTextHeight;
-
-    // Text box rectangle for Vehicle registration label
-    Rect rect =
-        Rect.fromLTWH(0, 0, textWidth.toDouble(), textHeight.toDouble());
-    RRect rectRadius = RRect.fromRectAndRadius(rect, const Radius.circular(10));
-
-    canvas.drawRRect(rectRadius, paint);
-    painter.paint(
-        canvas, Offset(fortyPercentWidth / 4, halfTextHeight.toDouble() / 4));
-
-    double x = (textWidth) / 2;
-    double y = textHeight.toDouble();
-
-    Path arrow = Path()
-      ..moveTo(x - 25, y)
-      ..relativeLineTo(50, 0)
-      ..relativeLineTo(-25, 25)
-      ..close();
-    canvas.drawPath(arrow, paint);
-
-    // Load the icon from the path as a list of bytes
-    final ByteData dataStart = await rootBundle.load(iconPath);
-    ui.Codec codec = await ui.instantiateImageCodec(
-        dataStart.buffer.asUint8List(),
-        targetWidth: iconSize.width.toInt());
-    ui.FrameInfo fi = await codec.getNextFrame();
-
-    Uint8List dataEnd =
-        ((await fi.image.toByteData(format: ui.ImageByteFormat.png)) ??
-                ByteData(0))
-            .buffer
-            .asUint8List();
-
-    ui.Image image = await _loadImage(Uint8List.view(dataEnd.buffer));
-    canvas.drawImage(image, Offset(x - (image.width / 2), y + 25), Paint());
-
-    ui.Picture p = pictureRecorder.endRecording();
-    ByteData? pngBytes = await (await p.toImage(
-      textWidth < image.width ? image.width : textWidth,
-      textHeight + image.height + 25,
-    ))
-        .toByteData(format: ui.ImageByteFormat.png);
-
-    return pngBytes?.buffer.asUint8List();
-  }
-
-  static Future<ui.Image> _loadImage(Uint8List img) async {
-    final Completer<ui.Image> completer = Completer();
-    ui.decodeImageFromList(img, (ui.Image img) {
-      return completer.complete(img);
-    });
-    return completer.future;
   }
 }

@@ -829,8 +829,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                     if (startLocation != null &&
                                         endLocation != null) {
                                       Navigator.pop(context);
-                                      textEditingControllerStart.clear();
-                                      textEditingControllerEnd.clear();
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -840,6 +838,11 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                                         startLocation!,
                                                         endLocation!
                                                       ])));
+                                      textEditingControllerStart.clear();
+                                      textEditingControllerEnd.clear();
+
+                                      // startLocation = null;
+                                      // endLocation = null;
                                     }
                                   },
                                   child: Column(

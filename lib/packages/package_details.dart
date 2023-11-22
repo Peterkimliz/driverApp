@@ -44,32 +44,40 @@ class PackageDetails extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: CachedNetworkImage(
-                        imageUrl: package.image!,
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
+                      child: package.image!.isEmpty
+                          ? const Icon(
+                              Icons.photo_size_select_actual_outlined,
+                              color: Colors.grey,
+                              size: 100,
+                            )
+                          : CachedNetworkImage(
+                              imageUrl: package.image!,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: CustomTheme.neutralColors.shade300,
+                                highlightColor:
+                                    CustomTheme.neutralColors.shade100,
+                                enabled: true,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: CustomTheme.neutralColors.shade300,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  height: 300,
+                                  width: double.infinity,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
-                          ),
-                        ),
-                        placeholder: (context, url) => Shimmer.fromColors(
-                          baseColor: CustomTheme.neutralColors.shade300,
-                          highlightColor: CustomTheme.neutralColors.shade100,
-                          enabled: true,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: CustomTheme.neutralColors.shade300,
-                                borderRadius: BorderRadius.circular(20)),
-                            height: 300,
-                            width: double.infinity,
-                          ),
-                        ),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      ),
 
                       // DecorationImage(
                       //     fit: BoxFit.cover,

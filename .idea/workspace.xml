@@ -14,25 +14,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="driver app changes">
-      <change afterPath="$PROJECT_DIR$/lib/home /bloc/bloc.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/home /bloc/event.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/home /bloc/state.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/marker_image.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/home /full_location.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/home /homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /homepage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/package.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/package_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_details.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/packages/package_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/package_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/package_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/schema.gql.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/schema.gql.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/search/active-order.fragment.graphql.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/search/order.graphql.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/constants.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
@@ -80,10 +67,10 @@
       <recent name="$PROJECT_DIR$/lib/packages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
       <recent name="$PROJECT_DIR$/lib/search" />
       <recent name="$PROJECT_DIR$/android/app" />
       <recent name="$PROJECT_DIR$/android" />
-      <recent name="$PROJECT_DIR$/images" />
       <recent name="$PROJECT_DIR$/lib" />
     </key>
   </component>
@@ -281,5 +268,16 @@
     <MESSAGE value="changed the profile for chat" />
     <MESSAGE value="driver app changes" />
     <option name="LAST_COMMIT_MESSAGE" value="driver app changes" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/packages/package_view.dart</url>
+          <line>334</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
