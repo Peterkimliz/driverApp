@@ -437,6 +437,9 @@ class PackageDetails extends StatelessWidget {
                   left: 0,
                   child: Container(
                     color: Colors.white,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ));
             } else {
               return Container(height: 0);
