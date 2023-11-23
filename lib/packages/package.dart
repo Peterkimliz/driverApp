@@ -8,10 +8,11 @@ class Package {
   String? image;
   String? paymentMethod;
   String? status;
+  bool? hired;
   Destinations? startDestination;
   Destinations? endDestination;
   List<Driver>? drivers;
-  Driver? hired;
+  Driver? hiredDriver;
   Driver? owner;
   String? riderPlayerId;
   String? driverPlayerId;
@@ -27,14 +28,16 @@ class Package {
       this.startDestination,
       this.endDestination,
       this.drivers,
-      this.hired,
+      this.hiredDriver,
       this.owner,
       this.riderPlayerId,
-      this.driverPlayerId});
+      this.driverPlayerId,
+      this.hired});
 
   factory Package.fromJson(Map<String, dynamic> json) {
     return Package(
       name: json["name"],
+      hired: json["hired"],
       id: json["id"],
       description: json["description"],
       price: json["offerPrice"],
@@ -45,7 +48,8 @@ class Package {
       driverPlayerId: json["driverPlayerId"] ?? "",
       startDestination: Destinations.fromJson(json["startDestination"]),
       endDestination: Destinations.fromJson(json["endDestination"]),
-      hired: json["driver"] == null ? null : Driver.fromJson(json["driver"]),
+      hiredDriver:
+          json["driver"] == null ? null : Driver.fromJson(json["driver"]),
       owner: json["owner"] == null ? null : Driver.fromJson(json["owner"]),
       drivers: json["drivers"] == null
           ? []
@@ -55,6 +59,7 @@ class Package {
 
   Map<String, dynamic> toJson() => {
         "name": name,
+        "hired": hired,
         "description": description,
         "price": price,
         "id": id,

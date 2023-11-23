@@ -59,7 +59,7 @@ class PackageRepository {
 
   sendOffer({required SendOffer type}) async {
     var driverPlayerId = await checkUserHasPackages();
-    await _firebaseFirestore.doc(type.packageId).update({
+    await _firebaseFirestore.doc(type.package.id).update({
       "driverPlayerId": driverPlayerId,
       "drivers": FieldValue.arrayUnion([
         {
@@ -73,6 +73,12 @@ class PackageRepository {
           "carName": type.carName,
         }
       ])
+    }).then((value) {
+      sendChatNotification(
+          message: "${type.driverFirstName} has sent you an offer",
+          screen: "package",
+          type: type.package,
+          chatid: "");
     });
   }
 

@@ -21,7 +21,6 @@ import '../home /places_search_result.dart';
 import 'bloc/package_bloc.dart';
 import 'bloc/package_events.dart';
 import 'bloc/package_state.dart';
-import 'offer_bottom.dart';
 import 'package.dart';
 
 class PackagesView extends StatefulWidget {

@@ -22,7 +22,7 @@ class SendOffer extends InputsEvents {
   final String driverPhone;
   final String driverId;
   final String driverPhoto;
-  final String packageId;
+  final Package package;
   final String carName;
   final String carPlate;
 
@@ -33,7 +33,7 @@ class SendOffer extends InputsEvents {
       required this.driverLastName,
       required this.driverPhone,
       required this.driverPhoto,
-      required this.packageId,
+      required this.package,
       required this.carName,
       required this.carPlate});
 
@@ -45,7 +45,7 @@ class SendOffer extends InputsEvents {
         driverPhone,
         driverId,
         driverPhoto,
-        packageId,
+        package,
         carName,
         carPlate
       ];

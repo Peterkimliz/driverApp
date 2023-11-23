@@ -27,6 +27,7 @@ class PackageDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Package hired${package.hired}");
     return Scaffold(
         body: Stack(
       children: [
@@ -159,15 +160,7 @@ class PackageDetails extends StatelessWidget {
                   BlocBuilder<PackageBloc, PackageState>(
                     builder: (context, state) {
                       return Center(
-                        child: !checkofferGiven(state)
-
-                            // &&
-                            //     package.drivers?.indexWhere((element) =>
-                            //             element.id ==
-                            //             FirebaseAuth
-                            //                 .instance.currentUser!.uid) ==
-                            //         -1 &&
-                            //     package.hired == null
+                        child: !checkofferGiven(state) && !checkHired(state)
                             ? InkWell(
                                 onTap: () {
                                   showModalBottomSheet(
@@ -310,9 +303,8 @@ class PackageDetails extends StatelessWidget {
                                                                         context)
                                                                     .add(
                                                                   SendOffer(
-                                                                    packageId:
-                                                                        package
-                                                                            .id!,
+                                                                    package:
+                                                                        package,
                                                                     offerPrice:
                                                                         int.parse(
                                                                             textEditingController.text),
@@ -385,7 +377,7 @@ class PackageDetails extends StatelessWidget {
                                   ),
                                 ),
                               )
-                            : package.hired?.id ==
+                            : package.hiredDriver?.id ==
                                         FirebaseAuth
                                             .instance.currentUser!.uid &&
                                     package.status != "completed"
@@ -471,5 +463,15 @@ class PackageDetails extends StatelessWidget {
       value = false;
     }
     return value;
+  }
+
+  checkHired(PackageState state) {
+    if (state is LoadedState) {
+      var index =
+          state.packages.indexWhere((element) => element.id == package.id);
+      return state.packages[index].hired;
+    } else {
+      return false;
+    }
   }
 }
