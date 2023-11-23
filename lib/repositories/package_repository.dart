@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_google_maps_webservices/src/places.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:safiri/packages/bloc/package_events.dart';
 import 'package:safiri/packages/chat/chat_model.dart';
 import 'package:safiri/packages/package.dart';
+
+import '../home /places_search_result.dart';
 
 class PackageRepository {
   final _firebaseFirestore = FirebaseFirestore.instance.collection("packages");

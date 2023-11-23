@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_google_maps_webservices/src/places.dart';
 
+import '../../home /places_search_result.dart';
 import '../package.dart';
 
 abstract class InputsEvents extends Equatable {}

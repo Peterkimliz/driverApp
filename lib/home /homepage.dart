@@ -8,12 +8,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dash/flutter_dash.dart';
-import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:safiri/current_location_cubit.dart';
+import 'package:safiri/home%20/places_search_result.dart';
 import 'package:safiri/main.graphql.dart';
 import 'package:safiri/map_providers/google_map_provider.dart';
 import 'package:safiri/notice_bar.dart';
@@ -870,7 +870,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    place.name,
+                                                    place.name!,
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .titleMedium,

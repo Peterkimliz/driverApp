@@ -13,12 +13,20 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="adding markers and on click of the markers">
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="clearing of the inputs">
+      <change afterPath="$PROJECT_DIR$/lib/home /places_search_result.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/home /bloc/bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /bloc/bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/home /bloc/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /bloc/event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/home /bloc/state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /bloc/state.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/home /homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /homepage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/packages/package_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/package_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/package_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700658230473</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="clearing of the inputs">
+      <created>1700663747663</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1700663747663</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -272,7 +287,8 @@
     <MESSAGE value="changed the profile for chat" />
     <MESSAGE value="driver app changes" />
     <MESSAGE value="adding markers and on click of the markers" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding markers and on click of the markers" />
+    <MESSAGE value="clearing of the inputs" />
+    <option name="LAST_COMMIT_MESSAGE" value="clearing of the inputs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

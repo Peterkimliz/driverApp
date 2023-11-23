@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dash/flutter_dash.dart';
-import 'package:flutter_google_maps_webservices/src/places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
@@ -18,6 +17,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 
+import '../home /places_search_result.dart';
 import 'bloc/package_bloc.dart';
 import 'bloc/package_events.dart';
 import 'bloc/package_state.dart';

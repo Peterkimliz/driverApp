@@ -520,13 +520,6 @@
             </list>
           </value>
         </entry>
-        <entry key="flutter_google_maps_webservices">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_google_maps_webservices-1.1.1/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="flutter_hooks">
           <value>
             <list>
@@ -1339,13 +1332,6 @@
             </list>
           </value>
         </entry>
-        <entry key="swipeable_button_view">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/swipeable_button_view-0.0.2/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="synchronized">
           <value>
             <list>
@@ -1638,7 +1624,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_dash-1.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_gen_core-5.3.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_gen_runner-5.3.1/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_google_maps_webservices-1.1.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_hooks-0.18.5+1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_link_previewer-3.2.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_linkify-6.0.0/lib" />
@@ -1751,7 +1736,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/stream_channel-2.1.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/stream_transform-2.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/string_scanner-1.2.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/swipeable_button_view-0.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/synchronized-3.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/term_glyph-1.2.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/test_api-0.5.1/lib" />

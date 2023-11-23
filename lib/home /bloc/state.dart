@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_google_maps_webservices/places.dart';
-
+import '../places_search_result.dart';
 abstract class LocationSearchState extends Equatable {}
 
 class InitialState extends LocationSearchState {
