@@ -1,7 +1,6 @@
 import 'package:client_shared/components/back_button.dart';
 import 'package:client_shared/components/query_result_view.dart';
 import 'package:client_shared/components/step_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/messages.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -78,8 +77,8 @@ class _RegisterViewState extends State<RegisterView> {
                             if (parsedData?.driver.mobileNumber != null) {
                               if (!RegisterView.allowedStatuses
                                   .contains(parsedData?.driver.status)) {
-                                PackageRepository().updatePlayerId(
-                                    FirebaseAuth.instance.currentUser!.uid);
+                                // PackageRepository().updatePlayerId(
+                                //     FirebaseAuth.instance.currentUser!.uid);
 
                                 Navigator.pop(context);
                                 return;

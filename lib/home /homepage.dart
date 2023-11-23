@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:client_shared/components/list_shimmer_skeleton.dart';
 import 'package:client_shared/config.dart';
 import 'package:client_shared/map_providers.dart';
 import 'package:client_shared/theme/theme.dart';
@@ -468,8 +466,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                 ? null
                                 : () async {
                                     final fcmId = await getFcmId(context);
-                                    runMutation(
-                                        Variables$Mutation$UpdateDriverStatus(
+                                    print("token is ${fcmId}");
+                                    runMutation(Variables$Mutation$UpdateDriverStatus(
                                             status: Enum$DriverStatus.Online,
                                             fcmId: fcmId));
                                   },

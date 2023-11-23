@@ -13,13 +13,17 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="finished the driver logic part">
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="showing message button after accepting the offer">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/package.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/package_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/package_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/home /homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /homepage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/register/register_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/register/register_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/repositories/package_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/package_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +280,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700729992334</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="showing message button after accepting the offer">
+      <created>1700740976083</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1700740976084</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -314,6 +325,7 @@
     <MESSAGE value="resolved keyboard hiding bottom sheet" />
     <MESSAGE value="resolved keyboard hiding bottom sheet when giving offer" />
     <MESSAGE value="finished the driver logic part" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished the driver logic part" />
+    <MESSAGE value="showing message button after accepting the offer" />
+    <option name="LAST_COMMIT_MESSAGE" value="showing message button after accepting the offer" />
   </component>
 </project>

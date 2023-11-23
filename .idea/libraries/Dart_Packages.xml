@@ -1024,13 +1024,6 @@
             </list>
           </value>
         </entry>
-        <entry key="onesignal_flutter">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/onesignal_flutter-3.5.1/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="package_config">
           <value>
             <list>
@@ -1686,7 +1679,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/nm-0.5.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/normalize-0.8.2+1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/octo_image-2.0.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/onesignal_flutter-3.5.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/package_config-2.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/package_info_plus-4.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/package_info_plus_platform_interface-2.0.1/lib" />

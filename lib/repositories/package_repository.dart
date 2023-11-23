@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:safiri/packages/bloc/package_events.dart';
 import 'package:safiri/packages/chat/chat_model.dart';
 import 'package:safiri/packages/package.dart';
@@ -10,8 +9,6 @@ import '../home /places_search_result.dart';
 class PackageRepository {
   final _firebaseFirestore = FirebaseFirestore.instance.collection("packages");
   final _chatRef = FirebaseFirestore.instance.collection("chats");
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final firebaseAuth = FirebaseAuth.instance;
 
@@ -58,9 +55,9 @@ class PackageRepository {
   }
 
   sendOffer({required SendOffer type}) async {
-    var driverPlayerId = await checkUserHasPackages();
+    // var driverPlayerId = await checkUserHasPackages();
     await _firebaseFirestore.doc(type.package.id).update({
-      "driverPlayerId": driverPlayerId,
+      // "driverPlayerId": driverPlayerId,
       "drivers": FieldValue.arrayUnion([
         {
           "id": type.driverId,
@@ -74,11 +71,11 @@ class PackageRepository {
         }
       ])
     }).then((value) {
-      sendChatNotification(
-          message: "${type.driverFirstName} has sent you an offer",
-          screen: "package",
-          type: type.package,
-          chatid: "");
+      // sendChatNotification(
+      //     message: "${type.driverFirstName} has sent you an offer",
+      //     screen: "package",
+      //     type: type.package,
+      //     chatid: "");
     });
   }
 
@@ -98,11 +95,11 @@ class PackageRepository {
           .collection("chats")
           .add(chatModel.toJson())
           .then((value) {
-        sendChatNotification(
-            message: type.message,
-            screen: "chat",
-            type: type.package,
-            chatid: type.id);
+        // sendChatNotification(
+        //     message: type.message,
+        //     screen: "chat",
+        //     type: type.package,
+        //     chatid: type.id);
       });
     });
   }
@@ -119,59 +116,59 @@ class PackageRepository {
     return chatId;
   }
 
-  updatePlayerId(String uid) async {
-    print("Updating player  iD");
-    final String? osUserID = await generateOneSignalId();
-    var collection = FirebaseFirestore.instance
-        .collection('packages')
-        .where("driver.id", isEqualTo: uid);
-    var querySnapshots = await collection.get();
-    for (var doc in querySnapshots.docs) {
-      await doc.reference.update({
-        "driverPlayerId": osUserID,
-      });
-    }
-  }
+// updatePlayerId(String uid) async {
+//   print("Updating player  iD");
+//   final String? osUserID = await generateOneSignalId();
+//   var collection = FirebaseFirestore.instance
+//       .collection('packages')
+//       .where("driver.id", isEqualTo: uid);
+//   var querySnapshots = await collection.get();
+//   for (var doc in querySnapshots.docs) {
+//     await doc.reference.update({
+//       "driverPlayerId": osUserID,
+//     });
+//   }
+// }
 
-  Future<String?> generateOneSignalId() async {
-    final status = await OneSignal.shared.getDeviceState();
-    return status?.userId;
-  }
+// Future<String?> generateOneSignalId() async {
+//   final status = await OneSignal.shared.getDeviceState();
+//   return status?.userId;
+// }
 
-  Future<String?> checkUserHasPackages() async {
-    var collection = _firebaseFirestore.where("driver.id",
-        isEqualTo: firebaseAuth.currentUser!.uid);
-    var querySnapshots = await collection.get();
-    if (querySnapshots.docs.isEmpty) {
-      final status = await OneSignal.shared.getDeviceState();
-      return status?.userId;
-    } else {
-      return querySnapshots.docs[0]["riderPlayerId"];
-    }
-  }
+// Future<String?> checkUserHasPackages() async {
+//   var collection = _firebaseFirestore.where("driver.id",
+//       isEqualTo: firebaseAuth.currentUser!.uid);
+//   var querySnapshots = await collection.get();
+//   if (querySnapshots.docs.isEmpty) {
+//     final status = await OneSignal.shared.getDeviceState();
+//     return status?.userId;
+//   } else {
+//     return querySnapshots.docs[0]["riderPlayerId"];
+//   }
+// }
 
-  void sendChatNotification(
-      {required String message,
-      required screen,
-      required Package type,
-      required String chatid}) async {
-    var notification = OSCreateNotification(
-      playerIds: [type.riderPlayerId!],
-      content: message,
-      androidLargeIcon: FirebaseAuth.instance.currentUser?.photoURL,
-      additionalData: {
-        "screen": screen,
-        "type": type.toJson(),
-        "message": message,
-        "chatId": chatid,
-      },
-      heading: type.owner?.firstName,
-    );
+// void sendChatNotification(
+//     {required String message,
+//     required screen,
+//     required Package type,
+//     required String chatid}) async {
+//   var notification = OSCreateNotification(
+//     playerIds: [type.riderPlayerId!],
+//     content: message,
+//     androidLargeIcon: FirebaseAuth.instance.currentUser?.photoURL,
+//     additionalData: {
+//       "screen": screen,
+//       "type": type.toJson(),
+//       "message": message,
+//       "chatId": chatid,
+//     },
+//     heading: type.owner?.firstName,
+//   );
+//
+//   sendNotification(notification: notification);
+// }
 
-    sendNotification(notification: notification);
-  }
-
-  void sendNotification({required OSCreateNotification notification}) async {
-    await OneSignal.shared.postNotification(notification);
-  }
+// void sendNotification({required OSCreateNotification notification}) async {
+//   await OneSignal.shared.postNotification(notification);
+// }
 }

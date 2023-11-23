@@ -5,7 +5,6 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lifecycle/lifecycle.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:safiri/chat/chat_view.dart';
 import 'package:safiri/current_location_cubit.dart';
 import 'package:safiri/earnings/earnings_view.dart';
@@ -54,15 +53,10 @@ void main() async {
   if (locale.dialCode != null) {
     defaultCountryCode = locale.dialCode!;
   }
-  initOneSignal();
   runApp(const MyApp());
 }
 
-void initOneSignal() {
-  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-  OneSignal.shared.setAppId(oneSignalKey);
-  OneSignal.shared.promptUserForPushNotificationPermission().then((value) {});
-}
+
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -72,30 +66,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  oneSignalObservers() {
-    OneSignal.shared.setNotificationWillShowInForegroundHandler(
-        (OSNotificationReceivedEvent event) {
-      event.complete(event.notification);
-    });
-
-    OneSignal.shared
-        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-      if (result.notification.additionalData!["screen"] == "chat"
-          // && Get.find<ChatController>().isChatPage.value == false
-          ) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChatPage(
-                    package: result.notification.additionalData!["type"],
-                    chatId: result.notification.additionalData!["chatId"])));
-      } else if (result.notification.additionalData!["screen"] == "package") {}
-    });
-  }
 
   @override
   void initState() {
-    oneSignalObservers();
     super.initState();
   }
 
