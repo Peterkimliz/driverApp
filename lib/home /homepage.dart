@@ -7,7 +7,6 @@ import 'package:client_shared/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:lifecycle/lifecycle.dart';
@@ -36,6 +35,7 @@ import '../map_providers/open_street_map_provider.dart';
 import '../order_status_card_view.dart';
 import '../orders_carousel_view.dart';
 import '../query_result_view.dart';
+import '../utils/functions.dart';
 import 'bloc/bloc.dart';
 import 'bloc/event.dart';
 import 'bloc/state.dart';
@@ -352,24 +352,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                                                               .snapshots(),
                                                                           builder: (context, AsyncSnapshot snapshot) {
                                                                             if (snapshot.hasData) {
-                                                                              return bottomSheetItems(
-                                                                                  title: "Packages",
-                                                                                  function: () {
-                                                                                    showLocationBottomSheet(context);
-                                                                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
-                                                                                  },
-                                                                                  subtitle: " ${snapshot.data!.docs.length}",
-                                                                                  context: context);
+                                                                              return locatinBottomSheet(context: context, count: snapshot.data!.docs.length);
                                                                             } else {
-                                                                              return bottomSheetItems(
-                                                                                  title: "Packages",
-                                                                                  function: () {
-                                                                                    showLocationBottomSheet(context);
-
-                                                                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
-                                                                                  },
-                                                                                  subtitle: " 0",
-                                                                                  context: context);
+                                                                              return locatinBottomSheet(context: context, count: 0);
+                                                                              ;
                                                                             }
                                                                           })
                                                                     ],
@@ -678,237 +664,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         variables: Variables$Mutation$UpdateDriverFCMId(fcmId: fcmId)));
   }
 
-  showLocationBottomSheet(context) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-          topRight: Radius.circular(30),
-          topLeft: Radius.circular(30),
-        )),
-        context: context,
-        builder: (_) {
-          return Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 15).copyWith(top: 20),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                    textEditingControllerStart.clear();
-                    textEditingControllerEnd.clear();
-                  },
-                  child: const Icon(
-                    Icons.clear_rounded,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: CustomTheme.neutralColors.shade200,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.navigation_sharp,
-                            color: Colors.grey,
-                            size: 35,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 15.0),
-                            child: Dash(
-                                direction: Axis.vertical,
-                                length: 20,
-                                dashLength: 2,
-                                dashColor: Colors.grey),
-                          ),
-                          Icon(
-                            Icons.location_on_sharp,
-                            color: Colors.grey,
-                            size: 35,
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: textEditingControllerStart,
-                              onChanged: (value) {
-                                if (value.trim().length >= 3) {
-                                  setState(() {
-                                    key = 0;
-                                  });
-                                  BlocProvider.of<LocationBloc>(context)
-                                      .add(SearchLocationName(name: value));
-                                }
-                              },
-                              decoration: const InputDecoration(
-                                  hintText: "Start Location",
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none),
-                            ),
-                            const Divider(),
-                            TextFormField(
-                              controller: textEditingControllerEnd,
-                              onChanged: (value) {
-                                if (value.trim().length >= 3) {
-                                  setState(() {
-                                    key = 1;
-                                  });
-                                  BlocProvider.of<LocationBloc>(context)
-                                      .add(SearchLocationName(name: value));
-                                }
-                              },
-                              decoration: const InputDecoration(
-                                  hintText: "Destination Location",
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Expanded(
-                  child: BlocBuilder<LocationBloc, LocationSearchState>(
-                    builder: (context, state) {
-                      if (state is Loading) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Shimmer.fromColors(
-                            baseColor: CustomTheme.neutralColors.shade300,
-                            highlightColor: CustomTheme.neutralColors.shade100,
-                            enabled: true,
-                            child: const ListShimmerSkeleton(),
-                          ),
-                        );
-                      }
-                      if (state is LoadedState) {
-                        return Container(
-                          height: 400,
-                          child: ListView.builder(
-                              itemCount: state.results.length,
-                              itemBuilder: ((context, index) {
-                                PlacesSearchResult place =
-                                    state.results.elementAt(index);
-                                return InkWell(
-                                  splashColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () {
-                                    if (key == 0) {
-                                      textEditingControllerStart.text =
-                                          place.formattedAddress!;
-                                      setState(() {
-                                        startLocation = place;
-                                      });
-                                    } else {
-                                      textEditingControllerEnd.text =
-                                          place.formattedAddress!;
-                                      setState(() {
-                                        endLocation = place;
-                                      });
-                                    }
-                                    if (startLocation != null &&
-                                        endLocation != null) {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PackagesView(
-                                                      selectedLocations: [
-                                                        startLocation!,
-                                                        endLocation!
-                                                      ])));
-                                      textEditingControllerStart.clear();
-                                      textEditingControllerEnd.clear();
-                                      Timer(Duration(milliseconds: 4000), () {
-                                        startLocation = null;
-                                        endLocation = null;
-                                      });
-                                    }
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 8),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_sharp,
-                                              color: CustomTheme
-                                                  .neutralColors.shade400,
-                                            ),
-                                            const SizedBox(width: 16),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    place.name!,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleMedium,
-                                                  ),
-                                                  const SizedBox(height: 4),
-                                                  Text(
-                                                    place.formattedAddress!,
-                                                    overflow: TextOverflow.fade,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .labelMedium,
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      const Divider()
-                                    ],
-                                  ),
-                                );
-                              })),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    },
-                  ),
-                )
-              ],
-            ),
-          );
-        }).whenComplete(() {
-      BlocProvider.of<LocationBloc>(context).add(SearchClear());
-    });
-  }
-
   Enum$GeoProvider getMapProviders() {
     var settings = Hive.box('settings').get('mapProvider');
     print("settings are $settings");
@@ -927,5 +682,72 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         : (provder == MapProvider.mapBox
             ? Enum$GeoProvider.MAPBOX
             : Enum$GeoProvider.NOMINATIM);
+  }
+
+  Widget locatinBottomSheet({required BuildContext context, required count}) {
+    return bottomSheetItems(
+        title: "Packages",
+        function: () {
+          showLocationBottomSheet(
+              context: context,
+              onCloseBottom: () {
+                Navigator.pop(context);
+                textEditingControllerStart.clear();
+                textEditingControllerEnd.clear();
+              },
+              controllerOneChange: (value) {
+                if (value.trim().length >= 3) {
+                  setState(() {
+                    key = 0;
+                  });
+                  BlocProvider.of<LocationBloc>(context)
+                      .add(SearchLocationName(name: value));
+                }
+              },
+              controllerTwoChange: (value) {
+                if (value.trim().length >= 3) {
+                  setState(() {
+                    key = 1;
+                  });
+                  BlocProvider.of<LocationBloc>(context)
+                      .add(SearchLocationName(name: value));
+                }
+              },
+              textEditingControllerStart: textEditingControllerStart,
+              textEditingControllerEnd: textEditingControllerEnd,
+              locationTap: (place) {
+                if (key == 0) {
+                  textEditingControllerStart.text = place.formattedAddress!;
+                  setState(() {
+                    startLocation = place;
+                  });
+                } else {
+                  textEditingControllerEnd.text = place.formattedAddress!;
+                  setState(() {
+                    endLocation = place;
+                  });
+                }
+                if (startLocation != null && endLocation != null) {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PackagesView(
+                                  selectedLocations: [
+                                    startLocation!,
+                                    endLocation!
+                                  ])));
+                  textEditingControllerStart.clear();
+                  textEditingControllerEnd.clear();
+                  Timer(Duration(milliseconds: 4000), () {
+                    startLocation = null;
+                    endLocation = null;
+                  });
+                }
+              });
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
+        },
+        subtitle: "${count}",
+        context: context);
   }
 }

@@ -32,9 +32,10 @@ class LocationBloc extends Bloc<LocationSearchEvents, LocationSearchState> {
       var response = jsonDecode(jsonResponse.body);
       print("Response is $response}");
       if (response["status"] == "OK") {
-        print("hello result")
-;        List places = response["results"];
-        List<PlacesSearchResult> foundPlaces = places.map((e) => PlacesSearchResult.fromJson(e)).toList();
+        print("hello result");
+        List places = response["results"];
+        List<PlacesSearchResult> foundPlaces =
+            places.map((e) => PlacesSearchResult.fromJson(e)).toList();
         return foundPlaces;
       }
 
