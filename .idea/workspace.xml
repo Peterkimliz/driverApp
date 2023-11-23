@@ -13,19 +13,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="changed the place search to use api">
-      <change afterPath="$PROJECT_DIR$/lib/utils/functions.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="showing load dialog when sending offer on driver side">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/home /bloc/bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /bloc/bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/home /homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /homepage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/offer_bottom.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/packages/package_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/package_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,7 +251,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700721840646</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="showing load dialog when sending offer on driver side">
+      <created>1700728871805</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1700728871806</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -295,6 +292,7 @@
     <MESSAGE value="adding markers and on click of the markers" />
     <MESSAGE value="clearing of the inputs" />
     <MESSAGE value="changed the place search to use api" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed the place search to use api" />
+    <MESSAGE value="showing load dialog when sending offer on driver side" />
+    <option name="LAST_COMMIT_MESSAGE" value="showing load dialog when sending offer on driver side" />
   </component>
 </project>
