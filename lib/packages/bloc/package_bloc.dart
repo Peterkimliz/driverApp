@@ -11,8 +11,8 @@ class PackageBloc extends Bloc<InputsEvents, PackageState> {
   PackageBloc({required this.packageRepository}) : super(InitialState()) {
     on<SearchPackage>((event, emit) async {
       emit(LoadingState());
-      List<Package> packages = await packageRepository.getPackages(
-          hired: event.name);
+      List<Package> packages =
+          await packageRepository.getPackages(hired: event.name);
       emit(LoadedState(packages: packages));
     });
     on<SendOffer>((event, emit) async {
@@ -20,6 +20,13 @@ class PackageBloc extends Bloc<InputsEvents, PackageState> {
       await packageRepository.sendOffer(type: event);
       add(SearchPackage(name: false));
     });
+
+    on<ChangeStatus>((event, emit) async {
+      emit(LoadingState());
+      await packageRepository.changeStatus(type: event.package);
+      add(SearchPackage(name: false));
+    });
+
     on<SendMessage>((event, emit) async {
       await packageRepository.sendMessage(type: event);
     });

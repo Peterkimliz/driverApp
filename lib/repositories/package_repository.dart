@@ -116,6 +116,10 @@ class PackageRepository {
     return chatId;
   }
 
+  changeStatus({required Package type}) async {
+    await _firebaseFirestore.doc(type.id).update({"status": "completed"});
+  }
+
 // updatePlayerId(String uid) async {
 //   print("Updating player  iD");
 //   final String? osUserID = await generateOneSignalId();

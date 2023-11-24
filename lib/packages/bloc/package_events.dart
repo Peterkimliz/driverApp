@@ -51,6 +51,15 @@ class SendOffer extends InputsEvents {
       ];
 }
 
+class ChangeStatus extends InputsEvents {
+  final Package package;
+
+  ChangeStatus({required this.package});
+
+  @override
+  List<Object?> get props => [package];
+}
+
 class SendMessage extends InputsEvents {
   final String message;
   final String id;
