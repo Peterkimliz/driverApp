@@ -39,50 +39,52 @@ class PackageDetails extends StatelessWidget {
               icon: Icon(Icons.arrow_back_ios)),
           title: Text("Back"),
           actions: [
-            BlocBuilder<PackageBloc, PackageState>(
-              builder: (context, states) {
-                if (states is LoadedState &&
-                    states
-                            .packages[states.packages.indexWhere(
-                                (element) => element.id == package.id)]
-                            .status !=
-                        "completed") {
-                  return PopupMenuButton<String>(
-                    color: Colors.white,
-                    icon: Icon(Icons.more_vert, color: Colors.black),
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'cancel',
-                          child: ListTile(
-                            title: Text('Cancel'),
+            if (package.hiredDriver?.id ==
+                FirebaseAuth.instance.currentUser!.uid)
+              BlocBuilder<PackageBloc, PackageState>(
+                builder: (context, states) {
+                  if (states is LoadedState &&
+                      states
+                              .packages[states.packages.indexWhere(
+                                  (element) => element.id == package.id)]
+                              .paymentVerfied ==
+                          false) {
+                    return PopupMenuButton<String>(
+                      color: Colors.white,
+                      icon: Icon(Icons.more_vert, color: Colors.black),
+                      itemBuilder: (BuildContext context) {
+                        return <PopupMenuEntry<String>>[
+                          const PopupMenuItem<String>(
+                            value: 'cancel',
+                            child: ListTile(
+                              title: Text('Cancel'),
+                            ),
                           ),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'complete',
-                          child: ListTile(
-                            title: Text('Complete'),
+                          const PopupMenuItem<String>(
+                            value: 'complete',
+                            child: ListTile(
+                              title: Text('Complete'),
+                            ),
                           ),
-                        ),
-                      ];
-                    },
-                    onSelected: (String value) {
-                      switch (value) {
-                        case 'cancel':
-                          break;
-                        case 'complete':
-                          context
-                              .read<PackageBloc>()
-                              .add(ChangeStatus(package: package));
-                          break;
-                      }
-                    },
-                  );
-                } else {
-                  return Container(height: 0);
-                }
-              },
-            )
+                        ];
+                      },
+                      onSelected: (String value) {
+                        switch (value) {
+                          case 'cancel':
+                            break;
+                          case 'complete':
+                            context
+                                .read<PackageBloc>()
+                                .add(ChangeStatus(package: package));
+                            break;
+                        }
+                      },
+                    );
+                  } else {
+                    return Container(height: 0);
+                  }
+                },
+              )
           ],
         ),
         body: Stack(

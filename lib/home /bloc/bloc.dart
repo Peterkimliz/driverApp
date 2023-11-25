@@ -26,7 +26,7 @@ class LocationBloc extends Bloc<LocationSearchEvents, LocationSearchState> {
   searchLocation({required String name}) async {
     try {
       var url =
-          "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${name}&country=ke&key=${mapKey}";
+          "https://maps.googleapis.com/maps/api/place/textsearch/json?%20sensor=true&query=${name}&region=ke&key=${mapKey}";
       var jsonResponse = await client.get(Uri.parse(url));
 
       var response = jsonDecode(jsonResponse.body);

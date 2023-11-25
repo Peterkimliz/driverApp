@@ -9,6 +9,8 @@ class Package {
   String? paymentMethod;
   String? status;
   bool? hired;
+  bool? paymentVerfied;
+
   Destinations? startDestination;
   Destinations? endDestination;
   List<Driver>? drivers;
@@ -32,12 +34,14 @@ class Package {
       this.owner,
       this.riderPlayerId,
       this.driverPlayerId,
-      this.hired});
+      this.hired,
+      this.paymentVerfied});
 
   factory Package.fromJson(Map<String, dynamic> json) {
     return Package(
       name: json["name"],
       hired: json["hired"],
+      paymentVerfied: json["paymentVerified"],
       id: json["id"],
       description: json["description"],
       price: json["offerPrice"],

@@ -41,13 +41,11 @@ class PackageRepository {
       List<Package> packages = [];
       if (query.docs.isNotEmpty) {
         for (var element in query.docs) {
-          print("Elements are ${element}");
           Package package =
               Package.fromJson(element.data() as Map<String, dynamic>);
           packages.add(package);
         }
       }
-      print("package length is ${packages.length}");
       return packages;
     } catch (e) {
       return [];
@@ -117,7 +115,7 @@ class PackageRepository {
   }
 
   changeStatus({required Package type}) async {
-    await _firebaseFirestore.doc(type.id).update({"status": "completed"});
+    await _firebaseFirestore.doc(type.id).update({"paymentVerified":true});
   }
 
 // updatePlayerId(String uid) async {

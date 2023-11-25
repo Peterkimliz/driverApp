@@ -13,10 +13,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="showing message button after accepting the offer">
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="added the pop up  menu to complete">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/bloc/package_events.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/home /bloc/bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home /bloc/bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/package.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/packages/package_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_details.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/repositories/package_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/package_repository.dart" afterDir="false" />
     </list>
@@ -282,7 +283,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700740976084</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="added the pop up  menu to complete">
+      <created>1700813647917</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1700813647917</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -321,6 +329,7 @@
     <MESSAGE value="resolved keyboard hiding bottom sheet when giving offer" />
     <MESSAGE value="finished the driver logic part" />
     <MESSAGE value="showing message button after accepting the offer" />
-    <option name="LAST_COMMIT_MESSAGE" value="showing message button after accepting the offer" />
+    <MESSAGE value="added the pop up  menu to complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="added the pop up  menu to complete" />
   </component>
 </project>
