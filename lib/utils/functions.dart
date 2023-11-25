@@ -84,6 +84,10 @@ showLocationBottomSheet(
                             onChanged: (value) {
                               controllerOneChange(value);
                             },
+                            onTap: () {
+                              BlocProvider.of<LocationBloc>(context)
+                                  .add(SearchClear());
+                            },
                             decoration: const InputDecoration(
                                 hintText: "Start Location",
                                 border: InputBorder.none,
@@ -94,6 +98,10 @@ showLocationBottomSheet(
                           const Divider(),
                           TextFormField(
                             controller: textEditingControllerEnd,
+                            onTap: () {
+                              BlocProvider.of<LocationBloc>(context)
+                                  .add(SearchClear());
+                            },
                             onChanged: (value) {
                               controllerTwoChange(value);
                             },
