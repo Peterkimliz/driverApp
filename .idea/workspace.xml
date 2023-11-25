@@ -13,8 +13,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="added the country code in the search">
-      <change beforePath="$PROJECT_DIR$/lib/utils/functions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/functions.dart" afterDir="false" />
+    <list default="true" id="42f97655-cf16-4264-8b70-2726fb1b57e2" name="Default Changelist" comment="clearing searched places on search bottom sheet">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/package_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/packages/package_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/packages/package_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/package_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/package_repository.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,7 +296,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700895302529</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="clearing searched places on search bottom sheet">
+      <created>1700895660673</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1700895660673</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -307,7 +318,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="navigation bars" />
     <MESSAGE value="formatted the profile page" />
     <MESSAGE value="added the swippable buttons" />
     <MESSAGE value="added the bottom sheet in the home page" />
@@ -332,6 +342,18 @@
     <MESSAGE value="showing message button after accepting the offer" />
     <MESSAGE value="added the pop up  menu to complete" />
     <MESSAGE value="added the country code in the search" />
-    <option name="LAST_COMMIT_MESSAGE" value="added the country code in the search" />
+    <MESSAGE value="clearing searched places on search bottom sheet" />
+    <option name="LAST_COMMIT_MESSAGE" value="clearing searched places on search bottom sheet" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/repositories/package_repository.dart</url>
+          <line>17</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

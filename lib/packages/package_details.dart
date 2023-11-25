@@ -467,9 +467,19 @@ class PackageDetails extends StatelessWidget {
                                           ),
                                         ),
                                       )
-                                    : SizedBox(
-                                        height: 0,
-                                        width: 0,
+                                    : Container(
+                                        width: 200,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 10),
+                                        decoration: BoxDecoration(
+                                            color: Colors.green,
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: const Text(
+                                          "Awaiting",
+                                          style: TextStyle(color: Colors.white),
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
                           );
                         },

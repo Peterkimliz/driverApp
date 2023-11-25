@@ -3,20 +3,16 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:client_shared/config.dart';
 import 'package:client_shared/theme/theme.dart';
-import 'package:dotted_dashed_line/dotted_dashed_line.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
 import 'package:safiri/packages/package_details.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:geolocator/geolocator.dart' as geo;
-
 import '../home /places_search_result.dart';
 import 'bloc/package_bloc.dart';
 import 'bloc/package_events.dart';
@@ -37,13 +33,10 @@ class _PackagesViewState extends State<PackagesView> {
       Completer<GoogleMapController>();
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   List<Package> addedPackages = [];
-  final ItemScrollController itemScrollController = ItemScrollController();
-  final ScrollOffsetController scrollOffsetController =
-      ScrollOffsetController();
-  final ItemPositionsListener itemPositionsListener =
-      ItemPositionsListener.create();
-  final ScrollOffsetListener scrollOffsetListener =
-      ScrollOffsetListener.create();
+  late ItemScrollController itemScrollController;
+  late ScrollOffsetController scrollOffsetController;
+  late ItemPositionsListener itemPositionsListener;
+  late ScrollOffsetListener scrollOffsetListener;
 
   @override
   void initState() {
@@ -57,7 +50,30 @@ class _PackagesViewState extends State<PackagesView> {
       );
     });
     super.initState();
-    addCustomIcon();
+    addCustomIcon(imagePath: "images/marker_image.png");
+    itemScrollController = ItemScrollController();
+    itemPositionsListener = ItemPositionsListener.create();
+    scrollOffsetController = ScrollOffsetController();
+    scrollOffsetListener = ScrollOffsetListener.create();
+    itemPositionsListener.itemPositions.addListener(() async {
+      (await _controller.future).animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(
+                  addedPackages[
+                          itemPositionsListener.itemPositions.value.last.index]
+                      .startDestination!
+                      .latlng!
+                      .latitude,
+                  addedPackages[
+                          itemPositionsListener.itemPositions.value.last.index]
+                      .startDestination!
+                      .latlng!
+                      .longitude),
+              zoom: 10.4746),
+        ),
+      );
+    });
   }
 
   @override
@@ -205,6 +221,7 @@ class _PackagesViewState extends State<PackagesView> {
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
+                          print("position of item  is ${index}");
                           Package package = addedPackages.elementAt(index);
                           return InkWell(
                             onTap: () {
@@ -216,11 +233,11 @@ class _PackagesViewState extends State<PackagesView> {
                             },
                             child: Container(
                               height: 150,
+                              width: MediaQuery.of(context).size.width * 0.95,
                               margin: const EdgeInsets.only(right: 10),
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10)),
-                              width: MediaQuery.of(context).size.width * 0.85,
                               padding: const EdgeInsets.all(10),
                               child: Row(
                                 children: [
@@ -305,7 +322,8 @@ class _PackagesViewState extends State<PackagesView> {
                               ),
                             ),
                           );
-                        })
+                        },
+                      )
                     : Container(
                         height: 0,
                         width: 0,
@@ -316,10 +334,9 @@ class _PackagesViewState extends State<PackagesView> {
     );
   }
 
-  void addCustomIcon() {
+  void addCustomIcon({required imagePath}) {
     BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(20.0, 20.0)),
-            "images/marker_image.png")
+            const ImageConfiguration(size: Size(200.0, 20.0)), imagePath)
         .then(
       (icon) {
         setState(() {
@@ -329,5 +346,3 @@ class _PackagesViewState extends State<PackagesView> {
     );
   }
 }
-
-

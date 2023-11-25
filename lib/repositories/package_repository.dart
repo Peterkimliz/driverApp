@@ -16,28 +16,8 @@ class PackageRepository {
       {required bool hired, List<PlacesSearchResult>? location}) async {
     try {
       Query<Map<String, dynamic>> queries = _firebaseFirestore;
-
-      // if (hired == false) {
-      //   queries = queries.where("hired", isEqualTo: false);
-      // } else if (hired == true) {
-      //   queries = queries.where("hired", isEqualTo: true).where("driver.id",
-      //       isEqualTo: FirebaseAuth.instance.currentUser!.uid);
-      // } else
-
-      // if (location!.isNotEmpty) {
-      //   print(
-      //       "Location is ${GeoPoint(location[1].geometry!.location.lat, location[1].geometry!.location.lng)}");
-      //
-      //   queries = queries
-      //       .where("start",
-      //           isEqualTo: GeoPoint(location[0].geometry!.location.lat,
-      //               location[0].geometry!.location.lng))
-      //       .where("end",
-      //           isLessThanOrEqualTo: GeoPoint(
-      //               location[1].geometry!.location.lat,
-      //               location[1].geometry!.location.lng));
-      // }
-      QuerySnapshot query = await queries.get();
+      QuerySnapshot query =
+          await queries.where("hired", isEqualTo: false).get();
       List<Package> packages = [];
       if (query.docs.isNotEmpty) {
         for (var element in query.docs) {
@@ -115,7 +95,7 @@ class PackageRepository {
   }
 
   changeStatus({required Package type}) async {
-    await _firebaseFirestore.doc(type.id).update({"paymentVerified":true});
+    await _firebaseFirestore.doc(type.id).update({"paymentVerified": true});
   }
 
 // updatePlayerId(String uid) async {
