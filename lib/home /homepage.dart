@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:client_shared/components/list_shimmer_skeleton.dart';
 import 'package:client_shared/config.dart';
 import 'package:client_shared/map_providers.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -33,7 +35,6 @@ import '../map_providers/open_street_map_provider.dart';
 import '../order_status_card_view.dart';
 import '../orders_carousel_view.dart';
 import '../query_result_view.dart';
-import '../utils/functions.dart';
 import 'bloc/bloc.dart';
 import 'bloc/event.dart';
 import 'bloc/state.dart';
@@ -79,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               }
               return LifecycleWrapper(
                   onLifecycleEvent: (event) {
+                    print("emitted event is ${event}");
                     if (event == LifecycleEvent.active) {
                       refetch?.call();
                       updateNotificationId(context);
@@ -467,7 +469,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                 : () async {
                                     final fcmId = await getFcmId(context);
                                     print("token is ${fcmId}");
-                                    runMutation(Variables$Mutation$UpdateDriverStatus(
+                                    runMutation(
+                                        Variables$Mutation$UpdateDriverStatus(
                                             status: Enum$DriverStatus.Online,
                                             fcmId: fcmId));
                                   },
@@ -581,7 +584,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   Widget _getWalletButton(BuildContext context, MainState state) {
     return Container(
-      decoration: BoxDecoration(boxShadow: [
+      decoration: const BoxDecoration(boxShadow: [
         BoxShadow(
             color: Color(0x14000000), offset: Offset(0, 3), blurRadius: 15)
       ]),
@@ -686,66 +689,270 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     return bottomSheetItems(
         title: "Packages",
         function: () {
-          showLocationBottomSheet(
-              context: context,
-              onCloseBottom: () {
-                Navigator.pop(context);
-                textEditingControllerStart.clear();
-                textEditingControllerEnd.clear();
-              },
-              controllerOneChange: (value) {
-                if (value.trim().length >= 3) {
-                  setState(() {
-                    key = 0;
-                  });
-                  BlocProvider.of<LocationBloc>(context)
-                      .add(SearchLocationName(name: value));
-                }
-              },
-              controllerTwoChange: (value) {
-                if (value.trim().length >= 3) {
-                  setState(() {
-                    key = 1;
-                  });
-                  BlocProvider.of<LocationBloc>(context)
-                      .add(SearchLocationName(name: value));
-                }
-              },
-              textEditingControllerStart: textEditingControllerStart,
-              textEditingControllerEnd: textEditingControllerEnd,
-              locationTap: (place) {
-                if (key == 0) {
-                  textEditingControllerStart.text = place.formattedAddress!;
-                  setState(() {
-                    startLocation = place;
-                  });
-                } else {
-                  textEditingControllerEnd.text = place.formattedAddress!;
-                  setState(() {
-                    endLocation = place;
-                  });
-                }
-                if (startLocation != null && endLocation != null) {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PackagesView(
-                                  selectedLocations: [
-                                    startLocation!,
-                                    endLocation!
-                                  ])));
-                  textEditingControllerStart.clear();
-                  textEditingControllerEnd.clear();
-                  Timer(Duration(milliseconds: 4000), () {
-                    startLocation = null;
-                    endLocation = null;
-                  });
-                }
-              });
+          showLocationBottomSheet(context: context);
           // Navigator.push(context, MaterialPageRoute(builder: (context) => PackagesView()));
         },
         subtitle: "${count}",
         context: context);
+  }
+
+  locationTap({required place}) {
+    if (key == 0) {
+      textEditingControllerStart.text = place.formattedAddress!;
+      setState(() {
+        startLocation = place;
+      });
+    } else {
+      textEditingControllerEnd.text = place.formattedAddress!;
+      setState(() {
+        endLocation = place;
+      });
+    }
+    if (startLocation != null && endLocation != null) {
+      Navigator.pop(context);
+      navigateToView(
+          context: context,
+          startLocation: startLocation,
+          endLocation: endLocation);
+      textEditingControllerStart.clear();
+      textEditingControllerEnd.clear();
+      Timer(const Duration(milliseconds: 4000), () {
+        startLocation = null;
+        endLocation = null;
+      });
+    }
+  }
+
+  showLocationBottomSheet({required context}) {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        )),
+        context: context,
+        builder: (_) {
+          return Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15).copyWith(top: 20),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    textEditingControllerStart.clear();
+                    textEditingControllerEnd.clear();
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 3.0, left: 10, bottom: 5),
+                    child: Icon(
+                      Icons.clear_rounded,
+                      color: Colors.black,
+                      size: 35,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: CustomTheme.neutralColors.shade200,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.navigation_sharp,
+                            color: Colors.grey,
+                            size: 35,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Container(
+                              height: 20,
+                              width: 5,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          const Icon(
+                            Icons.location_on_sharp,
+                            color: Colors.grey,
+                            size: 35,
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: textEditingControllerStart,
+                              onChanged: (value) {
+                                if (value.trim().length >= 3) {
+                                  setState(() {
+                                    key = 0;
+                                  });
+                                  BlocProvider.of<LocationBloc>(context)
+                                      .add(SearchLocationName(name: value));
+                                }
+                              },
+                              onTap: () {
+                                BlocProvider.of<LocationBloc>(context)
+                                    .add(SearchClear());
+                              },
+                              decoration: const InputDecoration(
+                                  hintText: "Start Location",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none),
+                            ),
+                            const Divider(),
+                            TextFormField(
+                              controller: textEditingControllerEnd,
+                              onTap: () {
+                                BlocProvider.of<LocationBloc>(context)
+                                    .add(SearchClear());
+                              },
+                              onChanged: (value) {
+                                if (value.trim().length >= 3) {
+                                  setState(() {
+                                    key = 1;
+                                  });
+                                  BlocProvider.of<LocationBloc>(context)
+                                      .add(SearchLocationName(name: value));
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                  hintText: "Destination Location",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: BlocBuilder<LocationBloc, LocationSearchState>(
+                    builder: (context, state) {
+                      if (state is Loading) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Shimmer.fromColors(
+                            baseColor: CustomTheme.neutralColors.shade300,
+                            highlightColor: CustomTheme.neutralColors.shade100,
+                            enabled: true,
+                            child: const ListShimmerSkeleton(),
+                          ),
+                        );
+                      }
+                      if (state is LoadedState) {
+                        return Container(
+                          height: 400,
+                          child: ListView.builder(
+                              itemCount: state.results.length,
+                              itemBuilder: ((context, index) {
+                                PlacesSearchResult place =
+                                    state.results.elementAt(index);
+                                return InkWell(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () => locationTap(place: place),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 8),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Icon(
+                                              Icons.location_on_sharp,
+                                              color: CustomTheme
+                                                  .neutralColors.shade400,
+                                            ),
+                                            const SizedBox(width: 16),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    place.name!,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleMedium,
+                                                  ),
+                                                  const SizedBox(height: 4),
+                                                  Text(
+                                                    place.formattedAddress!,
+                                                    overflow: TextOverflow.fade,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelMedium,
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      const Divider()
+                                    ],
+                                  ),
+                                );
+                              })),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          );
+        }).whenComplete(() {
+      BlocProvider.of<LocationBloc>(context).add(SearchClear());
+    }).whenComplete(() {
+      BlocProvider.of<LocationBloc>(context).add(SearchClear());
+    });
+  }
+
+  navigateToView(
+      {required BuildContext context,
+      PlacesSearchResult? startLocation,
+      PlacesSearchResult? endLocation}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PackagesView(
+                  selectedLocations: [startLocation!, endLocation!],
+                  editFunction: () {
+                    showLocationBottomSheet(
+                        context: scaffoldKey.currentContext);
+                    textEditingControllerStart.text =
+                        startLocation.formattedAddress!;
+                    textEditingControllerEnd.text =
+                        endLocation.formattedAddress!;
+                  },
+                )));
   }
 }
